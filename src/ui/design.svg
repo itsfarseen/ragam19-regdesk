@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:cc="http://creativecommons.org/ns#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     width="210mm"
+     height="297mm"
+     viewBox="0 0 210 297"
+     version="1.1"
+     id="svg8"
+     inkscape:version="0.92.4 5da689c313, 2019-01-14"
+     sodipodi:docname="design.svg">
+    <defs
+         id="defs2" />
+    <sodipodi:namedview
+         id="base"
+         pagecolor="#ffffff"
+         bordercolor="#666666"
+         borderopacity="1.0"
+         inkscape:pageopacity="0.0"
+         inkscape:pageshadow="2"
+         inkscape:zoom="0.70710678"
+         inkscape:cx="686.50385"
+         inkscape:cy="777.06652"
+         inkscape:document-units="mm"
+         inkscape:current-layer="layer1"
+         showgrid="false"
+         inkscape:snap-global="false"
+         showguides="false"
+         inkscape:window-width="1362"
+         inkscape:window-height="732"
+         inkscape:window-x="0"
+         inkscape:window-y="34"
+         inkscape:window-maximized="0">
+        <inkscape:grid
+             type="xygrid"
+             id="grid4540" />
+    </sodipodi:namedview>
+    <metadata
+         id="metadata5">
+        <rdf:RDF>
+            <cc:Work
+                 rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                     rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title />
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g
+         inkscape:label="Layer 1"
+         inkscape:groupmode="layer"
+         id="layer1">
+        <g
+             transform="translate(-28.321255,-20.562651)"
+             id="g4640">
+            <rect
+                 y="26.369047"
+                 x="34.017857"
+                 height="112.64262"
+                 width="119.44047"
+                 id="rect4518"
+                 style="opacity:0.89499996;vector-effect:none;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.29798257;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <text
+                 id="text4522"
+                 y="44.729801"
+                 x="40.667946"
+                 style="font-style:normal;font-weight:normal;font-size:35.27777481px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 xml:space="preserve"><tspan
+                     style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:10.58333302px;line-height:44.09721756px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';letter-spacing:1.32291663px;fill:#ffffff;stroke-width:0.26458332"
+                     y="44.729801"
+                     x="40.667946"
+                     id="tspan4520"
+                     sodipodi:role="line">Ragam'19</tspan></text>
+        </g>
+        <g
+             id="g4623"
+             transform="translate(-28.321255,-24.266817)">
+            <rect
+                 y="59.343536"
+                 x="37.38031"
+                 height="35.322678"
+                 width="113.16975"
+                 id="rect4524"
+                 style="opacity:0.89499996;vector-effect:none;fill:#666666;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.44671369;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <text
+                 id="text4528"
+                 y="68.75959"
+                 x="42.445065"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 xml:space="preserve"><tspan
+                     style="font-size:5.29166651px;fill:#f9f9f9;stroke-width:0.26458332"
+                     y="68.75959"
+                     x="42.445065"
+                     id="tspan4526"
+                     sodipodi:role="line">Verify Registration</tspan></text>
+            <rect
+                 y="75.461647"
+                 x="41.77948"
+                 height="9.2593422"
+                 width="65.501282"
+                 id="rect4530"
+                 style="opacity:0.89499996;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <text
+                 id="text4534"
+                 y="81.888939"
+                 x="43.366982"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 xml:space="preserve"><tspan
+                     style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332"
+                     y="81.888939"
+                     x="43.366982"
+                     id="tspan4532"
+                     sodipodi:role="line">Ragam ID</tspan></text>
+            <rect
+                 y="75.461647"
+                 x="112.0819"
+                 height="9.2593451"
+                 width="24.750593"
+                 id="rect4538"
+                 style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.37275362;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <text
+                 id="text4544"
+                 y="81.776489"
+                 x="115.01162"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 xml:space="preserve"><tspan
+                     style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332"
+                     y="81.776489"
+                     x="115.01162"
+                     id="tspan4542"
+                     sodipodi:role="line">Search</tspan></text>
+        </g>
+        <g
+             id="g4631"
+             transform="translate(-28.321255,-24.266818)">
+            <rect
+                 y="99.922722"
+                 x="37.223598"
+                 height="33.607983"
+                 width="113.16975"
+                 id="rect4524-3"
+                 style="opacity:0.89499996;vector-effect:none;fill:#666666;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.4111625;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <rect
+                 style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.98474634;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                 id="rect4561"
+                 width="51.738091"
+                 height="9.2593451"
+                 x="41.944759"
+                 y="117.1048" />
+            <text
+                 xml:space="preserve"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 x="45.403648"
+                 y="123.41965"
+                 id="text4565"><tspan
+                     sodipodi:role="line"
+                     id="tspan4563"
+                     x="45.403648"
+                     y="123.41965"
+                     style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332">New Registration</tspan></text>
+            <text
+                 id="text4528-6"
+                 y="109.2169"
+                 x="41.753326"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 xml:space="preserve"><tspan
+                     id="tspan4591"
+                     style="font-size:5.29166651px;line-height:11.04899979px;fill:#f9f9f9;stroke-width:0.26458332"
+                     y="109.2169"
+                     x="41.753326"
+                     sodipodi:role="line">Register New Participant</tspan></text>
+        </g>
+        <g
+             id="g1797"
+             transform="translate(1.7546129,-47.589282)">
+            <g
+                 transform="translate(-30.437922,143.47906)"
+                 id="g4694">
+                <rect
+                     y="26.369047"
+                     x="34.017857"
+                     height="150.43452"
+                     width="119.44047"
+                     id="rect4688"
+                     style="opacity:0.89499996;vector-effect:none;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+                <text
+                     id="text4692"
+                     y="44.729801"
+                     x="40.667946"
+                     style="font-style:normal;font-weight:normal;font-size:35.27777481px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:10.58333302px;line-height:44.09721756px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';letter-spacing:1.32291663px;fill:#ffffff;stroke-width:0.26458332"
+                         y="44.729801"
+                         x="40.667946"
+                         id="tspan4690"
+                         sodipodi:role="line">Ragam'19</tspan></text>
+            </g>
+            <g
+                 id="g4686"
+                 transform="translate(-30.437922,144.53735)">
+                <rect
+                     y="61.460194"
+                     x="37.38031"
+                     height="110.99352"
+                     width="113.16975"
+                     id="rect4668"
+                     style="opacity:0.89499996;vector-effect:none;fill:#666666;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.56451106;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+                <text
+                     id="text4672"
+                     y="52.477371"
+                     x="41.787502"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="font-size:5.29166651px;fill:#f9f9f9;stroke-width:0.26458332"
+                         y="52.477371"
+                         x="41.787502"
+                         id="tspan4670"
+                         sodipodi:role="line">Verify Registration</tspan></text>
+                <text
+                     id="text4678"
+                     y="81.888939"
+                     x="43.366982"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332"
+                         y="81.888939"
+                         x="43.366982"
+                         id="tspan4676"
+                         sodipodi:role="line">Ragam ID</tspan></text>
+                <text
+                     id="text4698"
+                     y="76.085655"
+                     x="42.030571"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="fill:#f9f9f9;stroke-width:0.26458332"
+                         y="76.085655"
+                         x="42.030571"
+                         id="tspan4696"
+                         sodipodi:role="line">R1900321</tspan></text>
+            </g>
+            <rect
+                 style="opacity:0.89499996;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.87339544;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                 id="rect4530-5"
+                 width="102.17066"
+                 height="9.2593431"
+                 x="11.395432"
+                 y="231.27039" />
+            <text
+                 xml:space="preserve"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 x="13.600938"
+                 y="237.36929"
+                 id="text4534-3"><tspan
+                     sodipodi:role="line"
+                     id="tspan4532-5"
+                     x="13.600938"
+                     y="237.36929"
+                     style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332">Name</tspan></text>
+            <g
+                 transform="matrix(1.0186529,0,0,1,-0.21255845,0)"
+                 id="g1682">
+                <rect
+                     style="opacity:0.89499996;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.85616398;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                     id="rect1668"
+                     width="100.29977"
+                     height="9.2593431"
+                     x="11.395432"
+                     y="245.02876" />
+                <text
+                     xml:space="preserve"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     x="13.600938"
+                     y="251.12767"
+                     id="text1672"><tspan
+                         sodipodi:role="line"
+                         id="tspan1670"
+                         x="13.600938"
+                         y="251.12767"
+                         style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332">Gender: Male</tspan></text>
+                <path
+                     style="fill:#cccccc;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                     d="m 104.46199,248.05208 2.24069,2.71198 1.99264,-2.71198 z"
+                     id="path1674"
+                     inkscape:connector-curvature="0"
+                     sodipodi:nodetypes="cccc" />
+            </g>
+            <g
+                 transform="translate(-0.21918801,13.561176)"
+                 id="g1692">
+                <rect
+                     y="245.02876"
+                     x="11.395432"
+                     height="9.2593431"
+                     width="102.17066"
+                     id="rect1684"
+                     style="opacity:0.89499996;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.87339544;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+                <text
+                     id="text1688"
+                     y="251.12767"
+                     x="13.600938"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332"
+                         y="251.12767"
+                         x="13.600938"
+                         id="tspan1686"
+                         sodipodi:role="line">College: ABC College</tspan></text>
+                <path
+                     sodipodi:nodetypes="cccc"
+                     inkscape:connector-curvature="0"
+                     id="path1690"
+                     d="m 106.62709,248.05208 2.24069,2.71198 1.99264,-2.71198 z"
+                     style="fill:#cccccc;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+            </g>
+            <g
+                 transform="translate(47.625002)"
+                 id="g1718">
+                <rect
+                     style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.04304719;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                     id="rect4561-3"
+                     width="54.822304"
+                     height="9.2593451"
+                     x="10.800332"
+                     y="276.2807" />
+                <text
+                     xml:space="preserve"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     x="14.259222"
+                     y="282.59555"
+                     id="text4565-6"><tspan
+                         sodipodi:role="line"
+                         id="tspan4563-7"
+                         x="14.259222"
+                         y="282.59555"
+                         style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332">Verify Registration</tspan></text>
+            </g>
+            <g
+                 id="g1726"
+                 transform="translate(0.85283462,28.045835)">
+                <rect
+                     y="276.2807"
+                     x="10.800332"
+                     height="9.2593451"
+                     width="45.467869"
+                     id="rect1720"
+                     style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.86059594;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+                <text
+                     id="text1724"
+                     y="282.59555"
+                     x="14.259222"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332"
+                         y="282.59555"
+                         x="14.259222"
+                         id="tspan1722"
+                         sodipodi:role="line">Update Details</tspan></text>
+            </g>
+            <g
+                 transform="translate(54.298674,28.045835)"
+                 id="g1734">
+                <rect
+                     style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.90597773;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                     id="rect1728"
+                     width="47.712933"
+                     height="9.2593451"
+                     x="10.800332"
+                     y="276.2807" />
+                <text
+                     xml:space="preserve"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     x="14.259222"
+                     y="282.59555"
+                     id="text1732"><tspan
+                         sodipodi:role="line"
+                         id="tspan1730"
+                         x="14.259222"
+                         y="282.59555"
+                         style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332">Reset Password</tspan></text>
+            </g>
+        </g>
+        <g
+             id="g1837"
+             transform="translate(99.207912,-22.150151)">
+            <rect
+                 style="opacity:0.89499996;vector-effect:none;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.29798257;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                 id="rect1831"
+                 width="119.44047"
+                 height="112.64262"
+                 x="34.017857"
+                 y="26.369047" />
+            <text
+                 xml:space="preserve"
+                 style="font-style:normal;font-weight:normal;font-size:35.27777481px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 x="40.667946"
+                 y="44.729801"
+                 id="text1835"><tspan
+                     sodipodi:role="line"
+                     id="tspan1833"
+                     x="40.667946"
+                     y="44.729801"
+                     style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:10.58333302px;line-height:44.09721756px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';letter-spacing:1.32291663px;fill:#ffffff;stroke-width:0.26458332">Ragam'19</tspan></text>
+        </g>
+        <text
+             xml:space="preserve"
+             style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+             x="141.52727"
+             y="40.755695"
+             id="text1845"><tspan
+                 sodipodi:role="line"
+                 id="tspan1843"
+                 x="141.52727"
+                 y="40.755695"
+                 style="font-size:7.05555534px;fill:#f9f9f9;stroke-width:0.26458332">Login</tspan></text>
+        <g
+             id="g1908"
+             transform="translate(0,7.9374992)">
+            <rect
+                 y="43.132828"
+                 x="141.00217"
+                 height="9.2593431"
+                 width="104.28733"
+                 id="rect4530-5-5"
+                 style="opacity:0.89499996;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.89270151;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <g
+                 id="g1902">
+                <text
+                     xml:space="preserve"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     x="143.41451"
+                     y="49.124691"
+                     id="text4534-3-3"><tspan
+                         sodipodi:role="line"
+                         id="tspan4532-5-5"
+                         x="143.41451"
+                         y="49.124691"
+                         style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332">User ID</tspan></text>
+            </g>
+        </g>
+        <g
+             id="g1918"
+             transform="translate(0,21.695834)">
+            <rect
+                 style="opacity:0.89499996;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.89270151;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                 id="rect1910"
+                 width="104.28733"
+                 height="9.2593431"
+                 x="141.00217"
+                 y="43.132828" />
+            <g
+                 id="g1916">
+                <text
+                     id="text1914"
+                     y="49.124691"
+                     x="143.41451"
+                     style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                     xml:space="preserve"><tspan
+                         style="font-size:5.29166651px;fill:#666666;stroke-width:0.26458332"
+                         y="49.124691"
+                         x="143.41451"
+                         id="tspan1912"
+                         sodipodi:role="line">Password</tspan></text>
+            </g>
+        </g>
+        <g
+             transform="translate(129.53435,-195.04788)"
+             id="g1718-6">
+            <rect
+                 style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.88936472;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                 id="rect4561-3-2"
+                 width="46.884804"
+                 height="9.2593451"
+                 x="10.800332"
+                 y="276.2807" />
+            <text
+                 xml:space="preserve"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 x="14.259222"
+                 y="282.59555"
+                 id="text4565-6-9"><tspan
+                     sodipodi:role="line"
+                     id="tspan4563-7-1"
+                     x="14.259222"
+                     y="282.59555"
+                     style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332">Login Reg Desk</tspan></text>
+        </g>
+        <g
+             id="g1950"
+             transform="translate(186.15524,-195.04788)">
+            <rect
+                 y="276.2807"
+                 x="8.9294453"
+                 height="9.2593451"
+                 width="48.755692"
+                 id="rect1944"
+                 style="opacity:0.89499996;vector-effect:none;fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.92669249;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <text
+                 id="text1948"
+                 y="282.59555"
+                 x="11.084225"
+                 style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+                 xml:space="preserve"><tspan
+                     style="font-size:5.29166651px;fill:#333333;stroke-width:0.26458332"
+                     y="282.59555"
+                     x="11.084225"
+                     id="tspan1946"
+                     sodipodi:role="line">Login Hospitality</tspan></text>
+        </g>
+    </g>
+</svg>
