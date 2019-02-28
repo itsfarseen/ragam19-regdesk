@@ -25,31 +25,31 @@ impl RegDesk {
     }
 
     fn generate_dummy_values(&mut self) {
-        let c1 = self.college_add("NIT Calicut");
-        let c2 = self.college_add("GEC Kannur");
-        self.college_add("GEC Thrissur");
-        self.college_add("CET Trivandrum");
-        self.college_add("TKM Kollam");
-        self.college_add("Amrita Coimbatore");
+        let c1 = self.college_add(String::from("NIT Calicut"));
+        let c2 = self.college_add(String::from("GEC Kannur"));
+        self.college_add(String::from("GEC Thrissur"));
+        self.college_add(String::from("CET Trivandrum"));
+        self.college_add(String::from("TKM Kollam"));
+        self.college_add(String::from("Amrita Coimbatore"));
 
         self.participant_new(
-            &ParticipantInfo {
+            ParticipantInfo {
                 username: String::from("test"),
                 name: String::from("Test"),
                 gender: String::from("Male"),
                 email: String::from("test@gmail.com"),
             },
-            &c1,
+            c1,
         );
 
         let p2 = self.participant_new(
-            &ParticipantInfo {
+            ParticipantInfo {
                 username: String::from("test_2"),
                 name: String::from("Test 2"),
                 gender: String::from("Female"),
                 email: String::from("test2@gmail.com"),
             },
-            &c2,
+            c2,
         );
 
         self.participant_verify_reg(p2.reg_status.err().unwrap());
@@ -57,12 +57,12 @@ impl RegDesk {
 }
 
 impl IRegDesk for RegDesk {
-    fn participant_new(&mut self, info: &ParticipantInfo, college: &College) -> Participant {
+    fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant {
         self.participant_last_id += 1;
         let participant = Participant {
             id: self.participant_last_id,
-            info: info.clone(),
-            college: college.clone(),
+            info,
+            college,
             reg_status: Err(ParticipantRegNotVerified {
                 id: self.participant_last_id,
             }),
@@ -77,29 +77,29 @@ impl IRegDesk for RegDesk {
         self.participants.get(&id).cloned()
     }
 
-    fn participant_update_info(&mut self, id: i32, info: &ParticipantInfo) -> Option<Participant> {
+    fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant> {
         if let Some(participant) = self.participants.get_mut(&id) {
-            participant.info = info.clone();
+            participant.info = info
         }
 
         self.participant_get(id)
     }
 
-    fn participant_update_college(&mut self, id: i32, college: &College) -> Option<Participant> {
+    fn participant_update_college(&mut self, id: i32, college: College) -> Option<Participant> {
         if let Some(participant) = self.participants.get_mut(&id) {
-            participant.college = college.clone();
+            participant.college = college;
         }
 
         self.participant_get(id)
     }
 
-    fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Option<Participant> {
+    fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant {
         let admin = self.logged_in_admin.clone();
         if let Some(participant) = self.participants.get_mut(&p.id) {
             participant.reg_status = Ok(ParticipantRegVerified { admin });
         }
 
-        self.participant_get(p.id)
+        self.participant_get(p.id).unwrap()
     }
 
     fn college_get_filtered(&self, name: &str) -> Vec<College> {
@@ -110,15 +110,15 @@ impl IRegDesk for RegDesk {
             .collect()
     }
 
-    fn college_add(&mut self, name: &str) -> College {
+    fn college_add(&mut self, name: String) -> College {
         self.college_last_id += 1;
         self.colleges.insert(
             self.college_last_id,
             College {
                 id: self.college_last_id,
-                name: String::from(name),
+                name,
             },
         );
-        self.colleges.get(&self.college_last_id).cloned().unwrap()
+        self.colleges[&self.college_last_id].clone()
     }
 }

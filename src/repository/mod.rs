@@ -63,11 +63,11 @@ trait ILogin {
 }
 
 trait IRegDesk {
-    fn participant_new(&mut self, info: &ParticipantInfo, college: &College) -> Participant;
+    fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant;
     fn participant_get(&self, id: i32) -> Option<Participant>;
-    fn participant_update_info(&mut self, id: i32, info: &ParticipantInfo) -> Option<Participant>;
-    fn participant_update_college(&mut self, id: i32, college: &College) -> Option<Participant>;
-    fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Option<Participant>;
+    fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant>;
+    fn participant_update_college(&mut self, id: i32, college: College) -> Option<Participant>;
+    fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant;
     fn college_get_filtered(&self, name: &str) -> Vec<College>;
-    fn college_add(&mut self, name: &str) -> College;
+    fn college_add(&mut self, name: String) -> College;
 }
