@@ -1,8 +1,53 @@
 use super::*;
 use std::collections::HashMap;
 
+type Username = String;
+struct AdminEx {
+    id: i32,
+    username: String,
+    password: String,
+    info: Admin,
+}
+
 struct Login {
-    admins: Vec<Admin>,
+    admins: HashMap<Username, AdminEx>,
+}
+
+impl Login {
+    fn new() -> Login {
+        Login {
+            admins: HashMap::new(),
+        }
+    }
+
+    fn generate_dummy_values(&mut self) {
+        self.admins.insert(
+            String::from("admin"),
+            AdminEx {
+                id: 1000,
+                username: String::from("admin"),
+                password: String::from("admin"),
+                info: Admin {
+                    id: 1000,
+                    name: String::from("Admin"),
+                },
+            },
+        );
+    }
+}
+
+impl ILogin for Login {
+    type RegDesk = RegDesk;
+    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Self::RegDesk, ()> {
+        if let Some(admin) = self.admins.get(username) {
+            if admin.password == password {
+                let mut reg_desk = RegDesk::new(admin.info.clone());
+                reg_desk.generate_dummy_values();
+                return Ok(reg_desk);
+            }
+        }
+        Err(())
+    }
 }
 
 struct RegDesk {
