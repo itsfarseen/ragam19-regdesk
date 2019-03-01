@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+use std::rc::Rc;
 
 pub mod impl_in_mem;
 
@@ -57,12 +58,11 @@ pub enum RegistrationStatus {
     NotVerified { id: i32 },
 }
 
-trait ILogin {
-    type RegDesk: IRegDesk;
-    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Self::RegDesk, ()>;
+pub trait ILogin {
+    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Rc<dyn IRegDesk>, ()>;
 }
 
-trait IRegDesk {
+pub trait IRegDesk {
     fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant;
     fn participant_get(&self, id: i32) -> Option<Participant>;
     fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant>;

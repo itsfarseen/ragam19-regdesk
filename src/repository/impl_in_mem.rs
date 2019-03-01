@@ -9,18 +9,18 @@ struct AdminEx {
     info: Admin,
 }
 
-struct Login {
+pub struct Login {
     admins: HashMap<Username, AdminEx>,
 }
 
 impl Login {
-    fn new() -> Login {
+    pub fn new() -> Login {
         Login {
             admins: HashMap::new(),
         }
     }
 
-    fn generate_dummy_values(&mut self) {
+    pub fn generate_dummy_values(&mut self) {
         self.admins.insert(
             String::from("admin"),
             AdminEx {
@@ -37,13 +37,12 @@ impl Login {
 }
 
 impl ILogin for Login {
-    type RegDesk = RegDesk;
-    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Self::RegDesk, ()> {
+    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Rc<dyn IRegDesk>, ()> {
         if let Some(admin) = self.admins.get(username) {
             if admin.password == password {
                 let mut reg_desk = RegDesk::new(admin.info.clone());
                 reg_desk.generate_dummy_values();
-                return Ok(reg_desk);
+                return Ok(Rc::from(reg_desk));
             }
         }
         Err(())
