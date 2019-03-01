@@ -1,5 +1,6 @@
 use super::*;
 use std::collections::HashMap;
+use std::{thread, time};
 
 type Username = String;
 struct AdminEx {
@@ -38,6 +39,8 @@ impl Login {
 
 impl ILogin for Login {
     fn login_reg_desk(&self, username: &str, password: &str) -> Result<Rc<dyn IRegDesk>, ()> {
+        thread::sleep(time::Duration::from_millis(1000));
+
         if let Some(admin) = self.admins.get(username) {
             if admin.password == password {
                 let mut reg_desk = RegDesk::new(admin.info.clone());
@@ -102,6 +105,7 @@ impl RegDesk {
 
 impl IRegDesk for RegDesk {
     fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant {
+        thread::sleep(time::Duration::from_millis(1000));
         self.participant_last_id += 1;
         let participant = Participant {
             id: self.participant_last_id,
@@ -118,10 +122,12 @@ impl IRegDesk for RegDesk {
     }
 
     fn participant_get(&self, id: i32) -> Option<Participant> {
+        thread::sleep(time::Duration::from_millis(1000));
         self.participants.get(&id).cloned()
     }
 
     fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant> {
+        thread::sleep(time::Duration::from_millis(1000));
         if let Some(participant) = self.participants.get_mut(&id) {
             participant.info = info
         }
@@ -130,6 +136,7 @@ impl IRegDesk for RegDesk {
     }
 
     fn participant_update_college(&mut self, id: i32, college: College) -> Option<Participant> {
+        thread::sleep(time::Duration::from_millis(1000));
         if let Some(participant) = self.participants.get_mut(&id) {
             participant.college = college;
         }
@@ -138,6 +145,7 @@ impl IRegDesk for RegDesk {
     }
 
     fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant {
+        thread::sleep(time::Duration::from_millis(1000));
         let admin = self.logged_in_admin.clone();
         if let Some(participant) = self.participants.get_mut(&p.id) {
             participant.reg_status = Ok(ParticipantRegVerified { admin });
@@ -147,6 +155,7 @@ impl IRegDesk for RegDesk {
     }
 
     fn college_get_filtered(&self, name: &str) -> Vec<College> {
+        thread::sleep(time::Duration::from_millis(1000));
         self.colleges
             .iter()
             .filter(|(_, c)| c.name.starts_with(name))
@@ -155,6 +164,7 @@ impl IRegDesk for RegDesk {
     }
 
     fn college_add(&mut self, name: String) -> College {
+        thread::sleep(time::Duration::from_millis(1000));
         self.college_last_id += 1;
         self.colleges.insert(
             self.college_last_id,
