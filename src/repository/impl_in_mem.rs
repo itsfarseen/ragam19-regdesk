@@ -38,14 +38,18 @@ impl Login {
 }
 
 impl ILogin for Login {
-    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Rc<dyn IRegDesk>, ()> {
+    fn login_reg_desk(
+        &self,
+        username: &str,
+        password: &str,
+    ) -> Result<Arc<dyn IRegDesk + Sync + Send>, ()> {
         thread::sleep(time::Duration::from_millis(1000));
 
         if let Some(admin) = self.admins.get(username) {
             if admin.password == password {
                 let mut reg_desk = RegDesk::new(admin.info.clone());
                 reg_desk.generate_dummy_values();
-                return Ok(Rc::from(reg_desk));
+                return Ok(Arc::from(reg_desk));
             }
         }
         Err(())

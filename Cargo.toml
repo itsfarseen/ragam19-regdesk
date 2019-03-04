@@ -11,3 +11,6 @@ features = ["postgres"]
 [dependencies.gtk]
 version = "0.6.0"
 features = ["v3_22"]
+
+[dependencies.glib]
+version = "0.7.0"

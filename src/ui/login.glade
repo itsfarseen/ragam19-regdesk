@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkBox" id="login_root">
+  <object class="GtkBox" id="root">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
@@ -20,6 +20,19 @@
         <style>
           <class name="screen-title"/>
         </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkProgressBar" id="progress_bar">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="opacity">0</property>
+        <property name="text" translatable="yes">Logging in</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -43,7 +56,9 @@
       <object class="GtkEntry" id="password">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
+        <property name="visibility">False</property>
         <property name="placeholder_text" translatable="yes">Password</property>
+        <property name="input_purpose">password</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -78,7 +93,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="draw_indicator">True</property>
-            <property name="group">login_radio_reg_desk</property>
+            <property name="group">reg_desk</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -88,7 +103,7 @@
         </child>
         <child>
           <object class="GtkButton" id="login_btn">
-            <property name="label" translatable="yes">  Login  </property>
+            <property name="label" translatable="yes">Login</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>

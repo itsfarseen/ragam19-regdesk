@@ -318,6 +318,7 @@ name = "ragam_offline_reg"
 version = "0.1.0"
 dependencies = [
  "diesel 1.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "glib 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "gtk 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

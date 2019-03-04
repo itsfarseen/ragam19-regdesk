@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use std::rc::Rc;
+use std::sync::Arc;
 
 pub mod impl_in_mem;
 
@@ -59,7 +59,11 @@ pub enum RegistrationStatus {
 }
 
 pub trait ILogin {
-    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Rc<dyn IRegDesk>, ()>;
+    fn login_reg_desk(
+        &self,
+        username: &str,
+        password: &str,
+    ) -> Result<Arc<dyn IRegDesk + Send + Sync>, ()>;
 }
 
 pub trait IRegDesk {
