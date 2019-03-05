@@ -42,6 +42,14 @@ impl Login {
     }
 
     fn init_cb(self_: Arc<Self>) {
+        {
+            // Submit on pressing enter from password field
+            let self_ = self_.clone();
+            self_.clone().ui.password.connect_activate(move |_| {
+                self_.ui.login_btn.emit_clicked();
+            });
+        }
+
         self_.clone().ui.login_btn.connect_clicked(move |_| {
             let username = self_.ui.username.get_text().unwrap();
             let password = self_.ui.password.get_text().unwrap();
