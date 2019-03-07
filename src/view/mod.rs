@@ -7,7 +7,6 @@ use gtk;
 use gtk::prelude::*;
 
 pub struct App {
-    window: gtk::Window,
     app_container: gtk::Container,
     last_widget: Option<gtk::Widget>,
 }
@@ -25,7 +24,6 @@ impl App {
         });
 
         App {
-            window,
             app_container,
             last_widget: None,
         }
