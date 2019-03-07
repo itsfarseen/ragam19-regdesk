@@ -37,50 +37,54 @@ impl Login {
             login_db,
         };
         let ret = Arc::from(ret);
-        Self::init_cb(ret.clone());
+        Self::initialize_callbacks(ret.clone());
         ret
     }
 
-    fn init_cb(self_: Arc<Self>) {
-        {
-            // Submit on pressing enter from password field
-            let self_ = self_.clone();
-            self_.clone().ui.password.connect_activate(move |_| {
+    fn initialize_callbacks(self_: Arc<Self>) {
+        // Submit on pressing enter from password field
+        self_
+            .ui
+            .password
+            .connect_activate(clone! {self_ => move |_| {
                 self_.ui.login_btn.emit_clicked();
-            });
-        }
+            }});
 
-        self_.clone().ui.login_btn.connect_clicked(move |_| {
-            let username = self_.ui.username.get_text().unwrap();
-            let password = self_.ui.password.get_text().unwrap();
-            if username.as_str().is_empty() || password.as_str().is_empty() {
-                return;
-            }
+        self_
+            .ui
+            .login_btn
+            .connect_clicked(clone! {self_ => move |_| {
 
-            self_.state_logging_in();
+                let username = self_.ui.username.get_text().unwrap();
+                let password = self_.ui.password.get_text().unwrap();
+                if username.as_str().is_empty() || password.as_str().is_empty() {
+                    return;
+                }
 
-            let (rx, tx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
-            {
-                let username = String::from(username.as_str());
-                let password = String::from(password.as_str());
-                let login_db = self_.login_db.clone();
-                thread::spawn(move || rx.send(login_db.login_reg_desk(&username, &password)));
-            }
+                self_.state_logging_in();
 
-            {
-                let self_ = self_.clone();
-                tx.attach(
-                    None,
-                    move |reg_desk: Result<Arc<dyn IRegDesk + Send + Sync>, ()>| {
-                        if let Ok(reg_desk) = reg_desk {
-                            (self_.login_success_cb)(reg_desk);
-                        }
-                        self_.state_default();
-                        glib::source::Continue(false)
-                    },
-                );
-            }
-        });
+                let (rx, tx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+                {
+                    let username = String::from(username.as_str());
+                    let password = String::from(password.as_str());
+                    let login_db = self_.login_db.clone();
+                    thread::spawn(move || rx.send(login_db.login_reg_desk(&username, &password)));
+                }
+
+                {
+                    let self_ = self_.clone();
+                    tx.attach(
+                        None,
+                        move |reg_desk: Result<Arc<dyn IRegDesk + Send + Sync>, ()>| {
+                            if let Ok(reg_desk) = reg_desk {
+                                (self_.login_success_cb)(reg_desk);
+                            }
+                            self_.state_default();
+                            glib::source::Continue(false)
+                        },
+                    );
+                }
+            }});
     }
 
     fn state_logging_in(&self) {
