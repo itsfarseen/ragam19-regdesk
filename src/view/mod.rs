@@ -1,5 +1,4 @@
-#[macro_use]
-mod macros;
+#[macro_use] mod macro_ui_struct;
 
 mod login;
 pub use login::Login;
