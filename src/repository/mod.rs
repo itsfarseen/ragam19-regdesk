@@ -1,5 +1,4 @@
 #![allow(dead_code)]
-use std::sync::Arc;
 
 pub mod impl_in_mem;
 
@@ -63,7 +62,7 @@ pub trait ILogin: Send + Sync {
         &self,
         username: &str,
         password: &str,
-    ) -> Result<Arc<dyn IRegDesk + Send + Sync>, ()>;
+    ) -> Result<Box<dyn IRegDesk>, ()>;
 }
 
 pub trait IRegDesk: Send + Sync {
