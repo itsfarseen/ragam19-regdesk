@@ -13,7 +13,7 @@ pub struct Login {
 }
 
 pub enum Message {
-    LoginSuccess(Arc<dyn IRegDesk>),
+    LoginSuccess(Box<dyn IRegDesk>),
 }
 
 ui_struct! {
@@ -40,6 +40,7 @@ impl Login {
         };
         let ret = Rc::from(ret);
         Self::initialize_callbacks(ret.clone());
+        ret.state_default();
         ret
     }
 
@@ -65,17 +66,17 @@ impl Login {
 
                 self_.state_logging_in();
 
-                let (rx, tx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+                let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
                 {
                     let username = String::from(username.as_str());
                     let password = String::from(password.as_str());
                     let login_db = self_.login_db.clone();
-                    thread::spawn(move || rx.send(login_db.login_reg_desk(&username, &password)));
+                    thread::spawn(move || tx.send(login_db.login_reg_desk(&username, &password)));
                 }
 
-                tx.attach(
+                rx.attach(
                     None,
-                    clone!{ self_ => move |reg_desk: Result<Arc<dyn IRegDesk + Send + Sync>, ()>| {
+                    clone!{ self_ => move |reg_desk: Result<Box<dyn IRegDesk>, ()>| {
                         if let Ok(reg_desk) = reg_desk {
                             (self_.callback)(Message::LoginSuccess(reg_desk));
                         }
