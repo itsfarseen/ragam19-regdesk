@@ -58,7 +58,7 @@ pub enum RegistrationStatus {
     NotVerified { id: i32 },
 }
 
-pub trait ILogin {
+pub trait ILogin: Send + Sync {
     fn login_reg_desk(
         &self,
         username: &str,
@@ -66,7 +66,7 @@ pub trait ILogin {
     ) -> Result<Arc<dyn IRegDesk + Send + Sync>, ()>;
 }
 
-pub trait IRegDesk {
+pub trait IRegDesk: Send + Sync {
     fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant;
     fn participant_get(&self, id: i32) -> Option<Participant>;
     fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant>;
