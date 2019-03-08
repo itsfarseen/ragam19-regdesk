@@ -1,14 +1,19 @@
-use super::*;
+use super::main_view::View;
 use crate::repository::*;
 use gtk;
 use gtk::prelude::*;
+use std::rc::Rc;
 use std::sync::Arc;
 use std::thread;
 
 pub struct Login {
     ui: LoginUI,
-    login_success_cb: Arc<dyn Fn(Arc<dyn IRegDesk>)>,
-    login_db: Arc<dyn ILogin + Send + Sync>,
+    callback: Box<dyn Fn(Message)>,
+    login_db: Arc<dyn ILogin>,
+}
+
+pub enum Message {
+    LoginSuccess(Arc<dyn IRegDesk>),
 }
 
 ui_struct! {
@@ -24,24 +29,21 @@ ui_struct! {
 }
 
 impl Login {
-    pub fn new(
-        login_success_cb: Arc<Fn(Arc<dyn IRegDesk>)>,
-        login_db: Arc<dyn ILogin + Send + Sync>,
-    ) -> Arc<Login> {
+    pub fn new(callback: Box<dyn Fn(Message)>, login_db: Arc<dyn ILogin>) -> Rc<Login> {
         let glade_src = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/ui/login.glade"));
         let builder = gtk::Builder::new_from_string(glade_src);
         let ui = LoginUI::build(builder);
         let ret = Login {
             ui,
-            login_success_cb,
+            callback,
             login_db,
         };
-        let ret = Arc::from(ret);
+        let ret = Rc::from(ret);
         Self::initialize_callbacks(ret.clone());
         ret
     }
 
-    fn initialize_callbacks(self_: Arc<Self>) {
+    fn initialize_callbacks(self_: Rc<Self>) {
         // Submit on pressing enter from password field
         self_
             .ui
@@ -71,19 +73,16 @@ impl Login {
                     thread::spawn(move || rx.send(login_db.login_reg_desk(&username, &password)));
                 }
 
-                {
-                    let self_ = self_.clone();
-                    tx.attach(
-                        None,
-                        move |reg_desk: Result<Arc<dyn IRegDesk + Send + Sync>, ()>| {
-                            if let Ok(reg_desk) = reg_desk {
-                                (self_.login_success_cb)(reg_desk);
-                            }
-                            self_.state_default();
-                            glib::source::Continue(false)
-                        },
-                    );
-                }
+                tx.attach(
+                    None,
+                    clone!{ self_ => move |reg_desk: Result<Arc<dyn IRegDesk + Send + Sync>, ()>| {
+                        if let Ok(reg_desk) = reg_desk {
+                            (self_.callback)(Message::LoginSuccess(reg_desk));
+                        }
+                        self_.state_default();
+                        glib::source::Continue(false)
+                    }},
+                );
             }});
     }
 
