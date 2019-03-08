@@ -1,15 +1,20 @@
 use super::main_view::View;
 use crate::repository::*;
+use glib;
 use gtk;
 use gtk::prelude::*;
+use std::cell::Cell;
 use std::rc::Rc;
-use std::sync::Arc;
 
 pub struct Home {
     ui: HomeUI,
-    reg_desk: Arc<dyn IRegDesk>,
-    new_reg_cb: Rc<dyn Fn()>,
-    verify_reg_cb: Rc<dyn Fn(Participant)>,
+    reg_desk: Cell<Option<Box<dyn IRegDesk>>>,
+    callback: Box<dyn Fn(Message)>,
+}
+
+pub enum Message {
+    VerifyReg(Participant, Box<dyn IRegDesk>),
+    NewReg(Box<dyn IRegDesk>),
 }
 
 ui_struct! {
@@ -23,28 +28,35 @@ ui_struct! {
 }
 
 impl Home {
-    pub fn new(
-        reg_desk: Arc<dyn IRegDesk>,
-        new_reg_cb: Rc<dyn Fn()>,
-        verify_reg_cb: Rc<dyn Fn(Participant)>,
-    ) -> Arc<Self> {
+    pub fn new(callback: Box<dyn Fn(Message)>) -> Rc<Self> {
         let glade_src = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/ui/home.glade"));
         let builder = gtk::Builder::new_from_string(glade_src);
 
         let home = Home {
             ui: HomeUI::build(builder),
-            reg_desk,
-            new_reg_cb,
-            verify_reg_cb,
+            reg_desk: Cell::from(None),
+            callback,
         };
 
-        let ret = Arc::from(home);
+        let ret = Rc::from(home);
         Self::initialize_callbacks(ret.clone());
+        ret.state_default();
         ret
     }
 
-    fn initialize_callbacks(this: Arc<Self>) {
-        let this_weak = Arc::downgrade(&this);
+    pub fn set_reg_desk(&self, reg_desk: Box<dyn IRegDesk>) {
+        self.reg_desk.set(Some(reg_desk));
+    }
+
+    fn initialize_callbacks(this: Rc<Self>) {
+        let this_weak = Rc::downgrade(&this);
+
+        this.ui
+            .ragam_id
+            .connect_activate(clone! {this_weak => move |_| {
+                let this = this_weak.upgrade().expect("Home.ui.ragam_id: Reference to Home dropped unexpectedly.");
+                this.ui.search.emit_clicked();
+            }});
 
         this.ui.search.connect_clicked(clone! {this_weak => move |_| {
             let this = this_weak.upgrade().expect("Home.ui.search: Reference to Home dropped unexpectedly.");
@@ -55,12 +67,74 @@ impl Home {
                 ragam_id = &ragam_id[3..];
             }
 
-            ragam_id.parse().ok().and_then(|ragam_id: i32| {
-                let this = this.clone();
-                Some(ragam_id)
+            let ragam_id = ragam_id.parse::<i32>();
+            if ragam_id.is_err() {
+                this.state_ragam_id_invalid();
+                return;
+            }
+
+            this.state_searching_participant();
+
+            let ragam_id = ragam_id.unwrap();
+
+            let reg_desk = this.reg_desk.take().expect(concat!(line!(), "Home: reg_desk is None"));
+            let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+            std::thread::spawn(move || {
+                let participant = reg_desk.participant_get(ragam_id);
+                tx.send((participant, reg_desk))
             });
 
+            let this = this.clone();
+            rx.attach(None, move |(participant, reg_desk)| {
+                if let Some(participant) = participant {
+                    this.state_default();
+                    (this.callback)(Message::VerifyReg(participant, reg_desk));
+                } else {
+                    this.state_ragam_id_not_found();
+                    this.reg_desk.set(Some(reg_desk))
+                }
+                glib::source::Continue(false)
+            });
         }});
+
+        this.ui.new_registration.connect_clicked(clone! (this_weak => move|_| {
+            let this = this_weak.upgrade().expect("Home.ui.new_registration: Reference to Home dropped unexpectedly.");
+            let reg_desk = this.reg_desk.take().expect("Home: reg_desk is None");
+            (this.callback)(Message::NewReg(reg_desk));
+        }));
+    }
+
+    fn state_searching_participant(&self) {
+        self.ui
+            .ragam_id_not_found
+            .set_text("Searching participant..");
+        self.ui.ragam_id_not_found.set_opacity(1.0);
+        self.ui.ragam_id.set_sensitive(false);
+        self.ui.search.set_sensitive(false);
+        self.ui.new_registration.set_sensitive(false);
+    }
+
+    fn state_default(&self) {
+        self.ui.ragam_id_not_found.set_opacity(0.0);
+        self.ui.ragam_id.set_sensitive(true);
+        self.ui.search.set_sensitive(true);
+        self.ui.new_registration.set_sensitive(true);
+    }
+
+    fn state_ragam_id_not_found(&self) {
+        self.ui.ragam_id_not_found.set_text("Ragam ID not found");
+        self.ui.ragam_id_not_found.set_opacity(1.0);
+        self.ui.ragam_id.set_sensitive(true);
+        self.ui.search.set_sensitive(true);
+        self.ui.new_registration.set_sensitive(true);
+    }
+
+    fn state_ragam_id_invalid(&self) {
+        self.ui.ragam_id_not_found.set_text("Ragam ID invalid");
+        self.ui.ragam_id_not_found.set_opacity(1.0);
+        self.ui.ragam_id.set_sensitive(true);
+        self.ui.search.set_sensitive(true);
+        self.ui.new_registration.set_sensitive(true);
     }
 }
 
