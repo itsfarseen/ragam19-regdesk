@@ -44,43 +44,47 @@ impl Login {
         ret
     }
 
-    fn initialize_callbacks(self_: Rc<Self>) {
-        // Submit on pressing enter from password field
-        self_
+    fn initialize_callbacks(this: Rc<Self>) {
+        let this_weak = Rc::downgrade(&this);
+
+        this
             .ui
             .password
-            .connect_activate(clone! {self_ => move |_| {
-                self_.ui.login_btn.emit_clicked();
+            .connect_activate(clone! {this_weak => move |_| {
+                let this = this_weak.upgrade().unwrap();
+                this.ui.login_btn.emit_clicked();
             }});
 
-        self_
+        this
             .ui
             .login_btn
-            .connect_clicked(clone! {self_ => move |_| {
+            .connect_clicked(clone! {this_weak => move |_| {
+                let this = this_weak.upgrade().unwrap();
 
-                let username = self_.ui.username.get_text().unwrap();
-                let password = self_.ui.password.get_text().unwrap();
+                let username = this.ui.username.get_text().unwrap();
+                let password = this.ui.password.get_text().unwrap();
                 if username.as_str().is_empty() || password.as_str().is_empty() {
                     return;
                 }
 
-                self_.state_logging_in();
+                this.state_logging_in();
 
                 let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
                 {
                     let username = String::from(username.as_str());
                     let password = String::from(password.as_str());
-                    let login_db = self_.login_db.clone();
+                    let login_db = this.login_db.clone();
                     thread::spawn(move || tx.send(login_db.login_reg_desk(&username, &password)));
                 }
 
                 rx.attach(
                     None,
-                    clone!{ self_ => move |reg_desk: Result<Box<dyn IRegDesk>, ()>| {
+                    clone!{ this_weak => move |reg_desk: Result<Box<dyn IRegDesk>, ()>| {
+                        let this = this_weak.upgrade().unwrap();
                         if let Ok(reg_desk) = reg_desk {
-                            (self_.callback)(Message::LoginSuccess(reg_desk));
+                            (this.callback)(Message::LoginSuccess(reg_desk));
                         }
-                        self_.state_default();
+                        this.state_default();
                         glib::source::Continue(false)
                     }},
                 );
