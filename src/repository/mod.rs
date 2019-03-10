@@ -67,8 +67,7 @@ pub trait ILogin: Send + Sync {
 pub trait IRegDesk: Send + Sync {
     fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant;
     fn participant_get(&self, id: i32) -> Option<Participant>;
-    fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant>;
-    fn participant_update_college(&mut self, id: i32, college: College) -> Option<Participant>;
+    fn participant_update(&mut self, participant: &Participant);
     fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant;
     // TODO: Implement fuzzy search
     fn college_get_filtered(&self, name: &str) -> Vec<College>;

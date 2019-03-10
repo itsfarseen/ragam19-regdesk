@@ -128,22 +128,10 @@ impl IRegDesk for RegDesk {
         self.participants.get(&id).cloned()
     }
 
-    fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant> {
-        thread::sleep(time::Duration::from_millis(1000));
-        if let Some(participant) = self.participants.get_mut(&id) {
-            participant.info = info
-        }
-
-        self.participant_get(id)
-    }
-
-    fn participant_update_college(&mut self, id: i32, college: College) -> Option<Participant> {
-        thread::sleep(time::Duration::from_millis(1000));
-        if let Some(participant) = self.participants.get_mut(&id) {
-            participant.college = college;
-        }
-
-        self.participant_get(id)
+    fn participant_update(&mut self, participant: &Participant) {
+        //thread::sleep(time::Duration::from_millis(1000));
+        self.participants
+            .insert(participant.id, participant.clone());
     }
 
     fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant {
