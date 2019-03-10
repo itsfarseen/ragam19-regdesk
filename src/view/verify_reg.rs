@@ -63,9 +63,7 @@ impl VerifyReg {
         self.load_participant(&participant);
         self.participant.replace(Some(participant));
         self.reg_desk.replace(Some(reg_desk));
-    }
-
-    fn load_participant(&self, participant: &Participant) {
+        self.state_default();
     }
 
     fn initialize_callbacks(this: Rc<Self>) {
@@ -90,6 +88,7 @@ impl VerifyReg {
                 let this_weak = this_weak.clone();
                 rx.attach(None, move |(participant, reg_desk)| {
                     let this = this_weak.upgrade().unwrap();
+                    this.load_participant(&participant);
                     this.participant.set(Some(participant));
                     this.reg_desk.set(Some(reg_desk));
                     this.state_default();
@@ -113,37 +112,35 @@ impl VerifyReg {
         }});
     }
 
+    fn load_participant(&self, participant: &Participant) {
+        let id = format!("R19{:06}", participant.id());
+        self.ui.ragam_id.set_text(&id);
+        self.ui.name.set_text(&participant.info.name);
+        self.ui.gender.set_text(&participant.info.gender);
+        self.ui.college.set_text(&participant.college.name);
+        self.ui.email.set_text(&participant.info.email);
+        match participant.reg_status {
+            Ok(ref reg_verified) => {
+                self.ui
+                    .reg_status
+                    .set_text(&format!("Verified by {}", reg_verified.admin.name));
+                self.ui.verify_reg.set_label("Verified");
+                self.ui.verify_reg.set_sensitive(false);
+            }
+            Err(ref _reg_not_verified) => {
+                self.ui.reg_status.set_text("Unverifed");
+                self.ui.verify_reg.set_label("Verify");
+                self.ui.verify_reg.set_sensitive(true);
+            }
+        }
+    }
+
     fn state_default(&self) {
         self.ui.verify_reg.set_label("Verify Registration");
         self.ui.back.set_sensitive(true);
         self.ui.verify_reg.set_sensitive(true);
         self.ui.update_details.set_sensitive(true);
         self.ui.reset_password.set_sensitive(true);
-
-        let participant = self.participant.take().unwrap();
-        {
-            let id = format!("R19{:06}", participant.id());
-            self.ui.ragam_id.set_text(&id);
-            self.ui.name.set_text(&participant.info.name);
-            self.ui.gender.set_text(&participant.info.gender);
-            self.ui.college.set_text(&participant.college.name);
-            self.ui.email.set_text(&participant.info.email);
-            match participant.reg_status {
-                Ok(ref reg_verified) => {
-                    self.ui
-                        .reg_status
-                        .set_text(&format!("Verified by {}", reg_verified.admin.name));
-                    self.ui.verify_reg.set_label("Verified");
-                    self.ui.verify_reg.set_sensitive(false);
-                }
-                Err(ref _reg_not_verified) => {
-                    self.ui.reg_status.set_text("Unverifed");
-                    self.ui.verify_reg.set_label("Verify");
-                    self.ui.verify_reg.set_sensitive(true);
-                }
-            }
-        }
-        self.participant.set(Some(participant));
     }
 
     fn state_verifying(&self) {
@@ -153,7 +150,6 @@ impl VerifyReg {
         self.ui.update_details.set_sensitive(false);
         self.ui.reset_password.set_sensitive(false);
     }
-
 }
 
 impl View for VerifyReg {
