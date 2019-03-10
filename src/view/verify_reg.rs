@@ -137,18 +137,22 @@ impl VerifyReg {
 
     fn state_default(&self) {
         self.ui.verify_reg.set_label("Verify Registration");
-        self.ui.back.set_sensitive(true);
-        self.ui.verify_reg.set_sensitive(true);
-        self.ui.update_details.set_sensitive(true);
-        self.ui.reset_password.set_sensitive(true);
+        set_sensitive!(true, self.ui{
+            back,
+            verify_reg,
+            update_details,
+            reset_password
+        });
     }
 
     fn state_verifying(&self) {
         self.ui.verify_reg.set_label("Verifying..");
-        self.ui.back.set_sensitive(false);
-        self.ui.verify_reg.set_sensitive(false);
-        self.ui.update_details.set_sensitive(false);
-        self.ui.reset_password.set_sensitive(false);
+        set_sensitive!(false, self.ui{
+            back,
+            verify_reg,
+            update_details,
+            reset_password
+        });
     }
 }
 

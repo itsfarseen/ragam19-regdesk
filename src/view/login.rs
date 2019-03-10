@@ -9,6 +9,7 @@ use std::thread;
 pub struct Login {
     ui: LoginUI,
     callback: Box<dyn Fn(Message)>,
+    // Fixme: Arc -> Box
     login_db: Arc<dyn ILogin>,
 }
 
@@ -47,16 +48,14 @@ impl Login {
     fn initialize_callbacks(this: Rc<Self>) {
         let this_weak = Rc::downgrade(&this);
 
-        this
-            .ui
+        this.ui
             .password
             .connect_activate(clone! {this_weak => move |_| {
                 let this = this_weak.upgrade().unwrap();
                 this.ui.login_btn.emit_clicked();
             }});
 
-        this
-            .ui
+        this.ui
             .login_btn
             .connect_clicked(clone! {this_weak => move |_| {
                 let this = this_weak.upgrade().unwrap();
@@ -104,20 +103,24 @@ impl Login {
         self.ui.progress_bar.set_fraction(0.0);
         self.ui.progress_bar.set_opacity(1.0);
 
-        self.ui.username.set_sensitive(false);
-        self.ui.password.set_sensitive(false);
-        self.ui.reg_desk.set_sensitive(false);
-        self.ui.hospitality.set_sensitive(false);
-        self.ui.login_btn.set_sensitive(false);
+        set_sensitive!(false, self.ui{
+            username,
+            password,
+            reg_desk,
+            hospitality,
+            login_btn
+        });
     }
 
     fn state_default(&self) {
         self.ui.progress_bar.set_opacity(0.0);
-        self.ui.username.set_sensitive(true);
-        self.ui.password.set_sensitive(true);
-        self.ui.reg_desk.set_sensitive(true);
-        self.ui.hospitality.set_sensitive(true);
-        self.ui.login_btn.set_sensitive(true);
+        set_sensitive!(true, self.ui{
+            username,
+            password,
+            reg_desk,
+            hospitality,
+            login_btn
+        });
     }
 }
 
