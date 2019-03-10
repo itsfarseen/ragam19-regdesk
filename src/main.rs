@@ -2,6 +2,9 @@
 
 mod repository;
 mod view;
+
+use repository::*;
+
 use gtk;
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -11,12 +14,13 @@ struct App {
     main_view: RefCell<view::main_view::MainView>,
     login: Option<Rc<view::login::Login>>,
     home: Option<Rc<view::home::Home>>,
+    verify_reg: Option<Rc<view::verify_reg::VerifyReg>>
 }
 
 fn main() {
     gtk::init().expect("Could not initialize GTK");
 
-    let mut login_db = repository::impl_in_mem::Login::new();
+    let mut login_db = impl_in_mem::Login::new();
     login_db.generate_dummy_values();
 
     App::new(Arc::from(login_db));
@@ -25,11 +29,12 @@ fn main() {
 }
 
 impl App {
-    fn new(login_db: Arc<dyn repository::ILogin>) -> Rc<RefCell<Self>> {
+    fn new(login_db: Arc<dyn ILogin>) -> Rc<RefCell<Self>> {
         let this = Rc::from(RefCell::from(Self {
             main_view: RefCell::from(view::main_view::MainView::new()),
             login: None,
             home: None,
+            verify_reg: None
         }));
         {
             let login_cb = Box::from(clone! {this => move|message|{
@@ -43,10 +48,32 @@ impl App {
         }
         {
             let home_cb = Box::from(clone! {this => move|message| {
-                println!("Message received from Home!");
+                match message {
+                    view::home::Message::NewReg(reg_desk) => {
+                        println!("Message::NewReg received from Home!");
+                    },
+                    view::home::Message::VerifyReg(participant, reg_desk) => {
+                        this.borrow().switch_view_verify_reg(participant, reg_desk);
+                    }
+                }
             }});
             this.borrow_mut().home = Some(view::home::Home::new(home_cb));
         }
+        {
+            let verify_reg_cb = Box::from(clone!{this => move|message| {
+                match message {
+                    view::verify_reg::Message::Back(_participant, reg_desk) => {
+                        this.borrow().switch_view_home(reg_desk);
+                    },
+                    _ => {
+                        println!("Message received from Verify Reg!");
+                    }
+                }
+            }});
+            this.borrow_mut().verify_reg = Some(view::verify_reg::VerifyReg::new(verify_reg_cb));
+        }
+
+
         this.borrow().switch_view_login();
 
         this
@@ -58,10 +85,17 @@ impl App {
             .load(self.login.as_ref().unwrap().as_ref());
     }
 
-    fn switch_view_home(&self, reg_desk: Box<dyn repository::IRegDesk>) {
+    fn switch_view_home(&self, reg_desk: Box<dyn IRegDesk>) {
         self.home.as_ref().unwrap().set_reg_desk(reg_desk);
         self.main_view
             .borrow_mut()
             .load(self.home.as_ref().unwrap().as_ref());
+    }
+
+    fn switch_view_verify_reg(&self, participant: Participant, reg_desk: Box<dyn IRegDesk>) {
+        self.verify_reg.as_ref().unwrap().set_participant_and_reg_desk(participant, reg_desk);
+        self.main_view
+            .borrow_mut()
+            .load(self.verify_reg.as_ref().unwrap().as_ref());
     }
 }

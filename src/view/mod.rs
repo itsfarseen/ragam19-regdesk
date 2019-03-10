@@ -4,3 +4,4 @@
 pub mod login;
 pub mod home;
 pub mod main_view;
+pub mod verify_reg;

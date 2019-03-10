@@ -27,7 +27,7 @@ pub struct ParticipantRegNotVerified {
 }
 
 impl Participant {
-    fn id(&self) -> i32 {
+    pub fn id(&self) -> i32 {
         self.id
     }
 }
@@ -47,14 +47,9 @@ pub struct College {
 }
 
 impl College {
-    fn id(&self) -> i32 {
+    pub fn id(&self) -> i32 {
         self.id
     }
-}
-
-pub enum RegistrationStatus {
-    Verified { admin: Admin },
-    NotVerified { id: i32 },
 }
 
 pub trait ILogin: Send + Sync {
