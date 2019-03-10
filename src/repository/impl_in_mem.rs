@@ -87,7 +87,7 @@ impl RegDesk {
             ParticipantInfo {
                 username: String::from("test"),
                 name: String::from("Test"),
-                gender: String::from("Male"),
+                gender: Gender::Male,
                 email: String::from("test@gmail.com"),
             },
             c1,
@@ -97,7 +97,7 @@ impl RegDesk {
             ParticipantInfo {
                 username: String::from("test_2"),
                 name: String::from("Test 2"),
-                gender: String::from("Female"),
+                gender: Gender::Female,
                 email: String::from("test2@gmail.com"),
             },
             c2,
@@ -109,7 +109,7 @@ impl RegDesk {
 
 impl IRegDesk for RegDesk {
     fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant {
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(500));
         self.participant_last_id += 1;
         let participant = Participant {
             id: self.participant_last_id,

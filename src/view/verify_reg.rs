@@ -116,7 +116,7 @@ impl VerifyReg {
         let id = format!("R19{:06}", participant.id());
         self.ui.ragam_id.set_text(&id);
         self.ui.name.set_text(&participant.info.name);
-        self.ui.gender.set_text(&participant.info.gender);
+        self.ui.gender.set_text(gender_to_str(&participant.info.gender));
         self.ui.college.set_text(&participant.college.name);
         self.ui.email.set_text(&participant.info.email);
         match participant.reg_status {
@@ -153,6 +153,14 @@ impl VerifyReg {
             update_details,
             reset_password
         });
+    }
+}
+
+fn gender_to_str(gender: &Gender) -> &str {
+    match gender {
+        Gender::Male => "Male",
+        Gender::Female => "Female",
+        Gender::Other => "Other"
     }
 }
 

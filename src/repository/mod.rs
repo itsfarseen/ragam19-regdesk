@@ -36,8 +36,13 @@ impl Participant {
 pub struct ParticipantInfo {
     pub username: String,
     pub name: String,
-    pub gender: String,
+    pub gender: Gender,
     pub email: String,
+}
+
+#[derive(Copy, Clone)]
+pub enum Gender {
+    Male, Female, Other
 }
 
 #[derive(Clone)]
@@ -66,6 +71,7 @@ pub trait IRegDesk: Send + Sync {
     fn participant_update_info(&mut self, id: i32, info: ParticipantInfo) -> Option<Participant>;
     fn participant_update_college(&mut self, id: i32, college: College) -> Option<Participant>;
     fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant;
+    // TODO: Implement fuzzy search
     fn college_get_filtered(&self, name: &str) -> Vec<College>;
     fn college_add(&mut self, name: String) -> College;
 }
