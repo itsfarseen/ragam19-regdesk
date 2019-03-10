@@ -85,7 +85,6 @@ impl RegDesk {
 
         self.participant_new(
             ParticipantInfo {
-                username: String::from("test"),
                 name: String::from("Test"),
                 gender: Gender::Male,
                 email: String::from("test@gmail.com"),
@@ -95,7 +94,6 @@ impl RegDesk {
 
         let p2 = self.participant_new(
             ParticipantInfo {
-                username: String::from("test_2"),
                 name: String::from("Test 2"),
                 gender: Gender::Female,
                 email: String::from("test2@gmail.com"),

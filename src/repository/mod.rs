@@ -34,7 +34,6 @@ impl Participant {
 
 #[derive(Clone)]
 pub struct ParticipantInfo {
-    pub username: String,
     pub name: String,
     pub gender: Gender,
     pub email: String,
