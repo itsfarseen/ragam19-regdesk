@@ -9,8 +9,14 @@ version = "1.4"
 features = ["postgres"]
 
 [dependencies.gtk]
-version = "0.6.0"
+version = "0.6"
 features = ["v3_22"]
 
 [dependencies.glib]
-version = "0.7.0"
+version = "0.7"
+
+[dependencies.gdk]
+version = "0.10"
+
+[dependencies.fuzzy-filter]
+version = "0.1"

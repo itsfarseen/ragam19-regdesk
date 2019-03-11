@@ -14,7 +14,8 @@ struct App {
     main_view: RefCell<view::main_view::MainView>,
     login: Option<Rc<view::login::Login>>,
     home: Option<Rc<view::home::Home>>,
-    verify_reg: Option<Rc<view::verify_reg::VerifyReg>>
+    verify_reg: Option<Rc<view::verify_reg::VerifyReg>>,
+    create_update: Option<Rc<view::create_update_participant::CreateUpdateParticipant>>,
 }
 
 fn main() {
@@ -34,7 +35,8 @@ impl App {
             main_view: RefCell::from(view::main_view::MainView::new()),
             login: None,
             home: None,
-            verify_reg: None
+            verify_reg: None,
+            create_update: None,
         }));
         {
             let login_cb = Box::from(clone! {this => move|message|{
@@ -50,7 +52,7 @@ impl App {
             let home_cb = Box::from(clone! {this => move|message| {
                 match message {
                     view::home::Message::NewReg(reg_desk) => {
-                        println!("Message::NewReg received from Home!");
+                        this.borrow().switch_view_new_participant(reg_desk);
                     },
                     view::home::Message::VerifyReg(participant, reg_desk) => {
                         this.borrow().switch_view_verify_reg(participant, reg_desk);
@@ -60,10 +62,13 @@ impl App {
             this.borrow_mut().home = Some(view::home::Home::new(home_cb));
         }
         {
-            let verify_reg_cb = Box::from(clone!{this => move|message| {
+            let verify_reg_cb = Box::from(clone! {this => move|message| {
                 match message {
                     view::verify_reg::Message::Back(_participant, reg_desk) => {
                         this.borrow().switch_view_home(reg_desk);
+                    },
+                    view::verify_reg::Message::UpdateDetails(particpant, reg_desk) => {
+                        this.borrow().switch_view_update_participant(particpant, reg_desk);
                     },
                     _ => {
                         println!("Message received from Verify Reg!");
@@ -72,7 +77,20 @@ impl App {
             }});
             this.borrow_mut().verify_reg = Some(view::verify_reg::VerifyReg::new(verify_reg_cb));
         }
+        {
+            let create_update_cb = Box::from(clone! {this => move|message| {
+                use view::create_update_participant::Message;
+                match message {
+                    Message::Back(_participant, reg_desk) => {
+                        this.borrow().switch_view_home(reg_desk);
+                    }
+                }
+            }});
 
+            this.borrow_mut().create_update = Some(
+                view::create_update_participant::CreateUpdateParticipant::new(create_update_cb),
+            );
+        }
 
         this.borrow().switch_view_login();
 
@@ -93,9 +111,36 @@ impl App {
     }
 
     fn switch_view_verify_reg(&self, participant: Participant, reg_desk: Box<dyn IRegDesk>) {
-        self.verify_reg.as_ref().unwrap().set_participant_and_reg_desk(participant, reg_desk);
+        self.verify_reg
+            .as_ref()
+            .unwrap()
+            .set_participant_and_reg_desk(participant, reg_desk);
         self.main_view
             .borrow_mut()
             .load(self.verify_reg.as_ref().unwrap().as_ref());
+    }
+
+    fn switch_view_new_participant(&self, reg_desk: Box<dyn IRegDesk>) {
+        self.create_update
+            .as_ref()
+            .unwrap()
+            .set_mode_create(reg_desk);
+        self.main_view
+            .borrow_mut()
+            .load(self.create_update.as_ref().unwrap().as_ref());
+    }
+
+    fn switch_view_update_participant(
+        &self,
+        participant: Participant,
+        reg_desk: Box<dyn IRegDesk>,
+    ) {
+        self.create_update
+            .as_ref()
+            .unwrap()
+            .set_mode_update(participant, reg_desk);
+        self.main_view
+            .borrow_mut()
+            .load(self.create_update.as_ref().unwrap().as_ref());
     }
 }
