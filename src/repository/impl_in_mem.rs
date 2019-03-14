@@ -2,6 +2,8 @@ use super::*;
 use std::collections::HashMap;
 use std::{thread, time};
 
+static DELAY: u64 = 100;
+
 type Username = String;
 struct AdminEx {
     id: i32,
@@ -43,7 +45,7 @@ impl ILogin for Login {
         username: &str,
         password: &str,
     ) -> Result<Box<dyn IRegDesk>, ()> {
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(DELAY));
 
         if let Some(admin) = self.admins.get(username) {
             if admin.password == password {
@@ -107,7 +109,7 @@ impl RegDesk {
 
 impl IRegDesk for RegDesk {
     fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant {
-        thread::sleep(time::Duration::from_millis(500));
+        thread::sleep(time::Duration::from_millis(DELAY));
         self.participant_last_id += 1;
         let participant = Participant {
             id: self.participant_last_id,
@@ -124,18 +126,18 @@ impl IRegDesk for RegDesk {
     }
 
     fn participant_get(&self, id: i32) -> Option<Participant> {
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(DELAY));
         self.participants.get(&id).cloned()
     }
 
     fn participant_update(&mut self, participant: &Participant) {
-        //thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(DELAY));
         self.participants
             .insert(participant.id, participant.clone());
     }
 
     fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant {
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(DELAY));
         let admin = self.logged_in_admin.clone();
         if let Some(participant) = self.participants.get_mut(&p.id) {
             participant.reg_status = Ok(ParticipantRegVerified { admin });
@@ -145,7 +147,7 @@ impl IRegDesk for RegDesk {
     }
 
     fn college_get_filtered(&self, name: &str) -> Vec<College> {
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(DELAY));
         self.colleges
             .iter()
             .filter(|(_, c)| c.name.starts_with(name))
@@ -154,7 +156,7 @@ impl IRegDesk for RegDesk {
     }
 
     fn college_add(&mut self, name: String) -> College {
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(DELAY));
         self.college_last_id += 1;
         self.colleges.insert(
             self.college_last_id,
