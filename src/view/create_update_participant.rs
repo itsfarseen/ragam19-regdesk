@@ -291,7 +291,7 @@ impl CreateUpdateParticipant {
 
             this.state_action_pending();
 
-            match this.mode.take().unwrap() {
+            match this.mode.get().unwrap() {
                 Mode::Create => {
                     let mut reg_desk = this.reg_desk.take().unwrap();
 
@@ -306,6 +306,7 @@ impl CreateUpdateParticipant {
                         this.load_participant(&participant);
                         this.state_create_complete();
                         this.reg_desk.set(Some(reg_desk));
+                        this.participant.set(Some(participant));
                         glib::source::Continue(false)
                     });
                 },
@@ -327,6 +328,7 @@ impl CreateUpdateParticipant {
                         this.load_participant(&participant);
                         this.state_update_complete();
                         this.reg_desk.set(Some(reg_desk));
+                        this.participant.set(Some(participant));
                         glib::source::Continue(false)
                     });
                 }
