@@ -14,7 +14,8 @@ pub struct Login {
 }
 
 pub enum Message {
-    LoginSuccess(Box<dyn IRegDesk>),
+    LoginSuccessRegDesk(Box<dyn IRegDesk>),
+    LoginSuccessHospi(Box<dyn IRegDesk>),
 }
 
 ui_struct! {
@@ -81,7 +82,11 @@ impl Login {
                     clone!{ this_weak => move |reg_desk: Result<Box<dyn IRegDesk>, ()>| {
                         let this = this_weak.upgrade().unwrap();
                         if let Ok(reg_desk) = reg_desk {
-                            (this.callback)(Message::LoginSuccess(reg_desk));
+                            if this.ui.reg_desk.get_active() {
+                                (this.callback)(Message::LoginSuccessRegDesk(reg_desk));
+                            } else {
+                                (this.callback)(Message::LoginSuccessHospi(reg_desk));
+                            }
                         }
                         this.state_default();
                         glib::source::Continue(false)

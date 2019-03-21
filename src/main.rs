@@ -13,7 +13,8 @@ use std::sync::Arc;
 struct App {
     main_view: RefCell<view::main_view::MainView>,
     login: Option<Rc<view::login::Login>>,
-    home: Option<Rc<view::home::Home>>,
+    home_reg_desk: Option<Rc<view::home::Home>>,
+    home_hospi: Option<Rc<view::home_hospi::HomeHospi>>,
     verify_reg: Option<Rc<view::verify_reg::VerifyReg>>,
     create_update: Option<Rc<view::create_update_participant::CreateUpdateParticipant>>,
 }
@@ -34,22 +35,26 @@ impl App {
         let this = Rc::from(RefCell::from(Self {
             main_view: RefCell::from(view::main_view::MainView::new()),
             login: None,
-            home: None,
+            home_reg_desk: None,
+            home_hospi: None,
             verify_reg: None,
             create_update: None,
         }));
         {
             let login_cb = Box::from(clone! {this => move|message|{
                 match message {
-                    view::login::Message::LoginSuccess(reg_desk) => {
-                        this.borrow().switch_view_home(reg_desk);
+                    view::login::Message::LoginSuccessRegDesk(reg_desk) => {
+                        this.borrow().switch_view_home_reg_desk(reg_desk);
+                    },
+                    view::login::Message::LoginSuccessHospi(reg_desk) => {
+                        this.borrow().switch_view_home_hospi(reg_desk);
                     }
                 }
             }});
             this.borrow_mut().login = Some(view::login::Login::new(login_cb, login_db));
         }
         {
-            let home_cb = Box::from(clone! {this => move|message| {
+            let home_reg_desk_cb = Box::from(clone! {this => move|message| {
                 match message {
                     view::home::Message::NewReg(reg_desk) => {
                         this.borrow().switch_view_new_participant(reg_desk);
@@ -59,13 +64,23 @@ impl App {
                     }
                 }
             }});
-            this.borrow_mut().home = Some(view::home::Home::new(home_cb));
+            this.borrow_mut().home_reg_desk = Some(view::home::Home::new(home_reg_desk_cb));
+        }
+        {
+            let home_hospi_cb = Box::from(clone! {this => move|message| {
+                match message {
+                    view::home_hospi::Message::RegHospi(participant, reg_desk) => {
+                        println!("Reg Hospi")
+                    }
+                }
+            }});
+            this.borrow_mut().home_hospi = Some(view::home_hospi::HomeHospi::new(home_hospi_cb));
         }
         {
             let verify_reg_cb = Box::from(clone! {this => move|message| {
                 match message {
                     view::verify_reg::Message::Back(_participant, reg_desk) => {
-                        this.borrow().switch_view_home(reg_desk);
+                        this.borrow().switch_view_home_reg_desk(reg_desk);
                     },
                     view::verify_reg::Message::UpdateDetails(particpant, reg_desk) => {
                         this.borrow().switch_view_update_participant(particpant, reg_desk);
@@ -82,7 +97,7 @@ impl App {
                 use view::create_update_participant::Message;
                 match message {
                     Message::Back(_participant, reg_desk) => {
-                        this.borrow().switch_view_home(reg_desk);
+                        this.borrow().switch_view_home_reg_desk(reg_desk);
                     }
                 }
             }});
@@ -103,11 +118,18 @@ impl App {
             .load(self.login.as_ref().unwrap().as_ref());
     }
 
-    fn switch_view_home(&self, reg_desk: Box<dyn IRegDesk>) {
-        self.home.as_ref().unwrap().set_reg_desk(reg_desk);
+    fn switch_view_home_reg_desk(&self, reg_desk: Box<dyn IRegDesk>) {
+        self.home_reg_desk.as_ref().unwrap().set_reg_desk(reg_desk);
         self.main_view
             .borrow_mut()
-            .load(self.home.as_ref().unwrap().as_ref());
+            .load(self.home_reg_desk.as_ref().unwrap().as_ref());
+    }
+
+    fn switch_view_home_hospi(&self, reg_desk: Box<dyn IRegDesk>) {
+        self.home_hospi.as_ref().unwrap().set_reg_desk(reg_desk);
+        self.main_view
+            .borrow_mut()
+            .load(self.home_hospi.as_ref().unwrap().as_ref());
     }
 
     fn switch_view_verify_reg(&self, participant: Participant, reg_desk: Box<dyn IRegDesk>) {
