@@ -1,11 +1,16 @@
 #![allow(dead_code, unused_variables)]
 
+#[macro_use]
+extern crate mysql;
+
 mod repository;
 mod view;
 
 use repository::*;
 
+use dotenv::dotenv;
 use gtk;
+use mysql::OptsBuilder;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::Arc;
@@ -21,10 +26,33 @@ struct App {
 }
 
 fn main() {
+    dotenv().ok();
     gtk::init().expect("Could not initialize GTK");
 
-    let mut login_db = impl_in_mem::Login::new();
-    login_db.generate_dummy_values();
+    let mut builder = OptsBuilder::new();
+    builder
+        .ip_or_hostname(Some(
+            std::env::var("MYSQL_HOST").expect("Please set MYSQL_HOST env var"),
+        ))
+        .db_name(Some(
+            std::env::var("MYSQL_DB").expect("Please set MYSQL_DB env var"),
+        ))
+        .tcp_port(
+            std::env::var("MYSQL_PORT")
+                .expect("Please set MYSQL_PORT env var")
+                .parse()
+                .expect("Invalid MYSQL_PORT"),
+        )
+        .user(Some(
+            std::env::var("MYSQL_USER").expect("Please set MYSQL_USER env var"),
+        ))
+        .pass(Some(
+            std::env::var("MYSQL_PASS").expect("Please set MYSQL_PASS env var"),
+        ));
+
+    let mysql_conn = mysql::Conn::new(builder).expect("Failed to connect to MySql");
+
+    let mut login_db = repository::impl_mysql::Login::new(mysql_conn);
 
     App::new(Arc::from(login_db));
 

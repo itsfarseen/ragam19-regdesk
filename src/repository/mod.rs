@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-pub mod impl_in_mem;
+pub mod impl_mysql;
 
 #[derive(Clone)]
 pub struct Admin {
@@ -15,6 +15,11 @@ pub struct Participant {
     pub college: College,
     pub reg_status: Result<ParticipantRegVerified, ParticipantRegNotVerified>,
     pub hospitality: Option<HospitalityVerified>,
+}
+
+#[derive(Copy, Clone)]
+pub enum ParticipantCategory {
+    Ragam, Kalotsavam
 }
 
 #[derive(Clone)]
@@ -45,6 +50,8 @@ pub struct ParticipantInfo {
     pub name: String,
     pub gender: Gender,
     pub email: String,
+    pub phone: String,
+    pub category: ParticipantCategory
 }
 
 #[derive(Copy, Clone)]
@@ -77,7 +84,6 @@ pub trait IRegDesk: Send + Sync {
     fn participant_verify_reg(&mut self, p: ParticipantRegNotVerified) -> Participant;
     fn participant_update_hospi(&mut self, p: Participant, hostel: &str, room: &str)
         -> Participant;
-    // TODO: Implement fuzzy search
     fn college_get_filtered(&self, name: &str) -> Vec<College>;
     fn college_add(&mut self, name: String) -> College;
 }

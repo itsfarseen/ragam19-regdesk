@@ -86,6 +86,7 @@ impl RegDesk {
                 name: String::from("Test"),
                 gender: Gender::Male,
                 email: String::from("test@gmail.com"),
+                phone: String::from("9876567891")
             },
             c1,
         );
@@ -95,6 +96,7 @@ impl RegDesk {
                 name: String::from("Test 2"),
                 gender: Gender::Female,
                 email: String::from("test2@gmail.com"),
+                phone: String::from("1234512346")
             },
             c2,
         );
@@ -115,6 +117,7 @@ impl IRegDesk for RegDesk {
                 id: self.participant_last_id,
             }),
             hospitality: None,
+            category: ParticipantCategory::Ragam
         };
 
         self.participants

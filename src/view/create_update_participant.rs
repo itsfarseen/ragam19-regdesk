@@ -463,7 +463,9 @@ impl CreateUpdateParticipant {
                     } else {
                         Gender::Other
                     }
-                }
+                },
+                category: ParticipantCategory::Ragam,
+                phone: String::from("N/A")
             },
             college,
         )

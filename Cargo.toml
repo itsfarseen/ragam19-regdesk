@@ -16,3 +16,9 @@ version = "0.10"
 
 [dependencies.fuzzy-filter]
 version = "0.1"
+
+[dependencies.mysql]
+version = "*"
+
+[dependencies.dotenv]
+version = "0.13.0"
