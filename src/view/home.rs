@@ -67,7 +67,7 @@ impl Home {
             let ragam_id_text = this.ui.ragam_id.get_text().unwrap();
             let mut ragam_id = ragam_id_text.as_str();
 
-            if ragam_id.starts_with("R19") {
+            if ragam_id.starts_with("R19") || ragam_id.starts_with("K19") {
                 ragam_id = &ragam_id[3..];
             }
 
