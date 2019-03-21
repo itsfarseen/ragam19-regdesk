@@ -112,7 +112,10 @@ impl VerifyReg {
     }
 
     fn load_participant(&self, participant: &Participant) {
-        let id = format!("R19{:06}", participant.id());
+        let id = match participant.info.category {
+            ParticipantCategory::Kalotsavam => format!("K19{:06}", participant.id()),
+            ParticipantCategory::Ragam => format!("R19{:06}", participant.id()),
+        };
         self.ui.ragam_id.set_text(&id);
         self.ui.name.set_text(&participant.info.name);
         self.ui
