@@ -9,7 +9,7 @@ use std::rc::{Rc, Weak};
 pub struct CreateUpdateParticipant {
     ui: CreateUpdateParticipantUI,
 
-    college_list: RefCell<CollegeList>,
+    college_list: RefCell<Option<CollegeList>>,
 
     callback: Box<dyn Fn(Message)>,
 
@@ -23,10 +23,9 @@ pub enum Message {
     Back(Option<Participant>, Box<dyn IRegDesk>),
 }
 
-enum CollegeList {
-    _InitSoon,
-    NotLoaded(Weak<CreateUpdateParticipant>),
-    Loaded(Vec<College>),
+struct CollegeList {
+    parent_weak: Weak<CreateUpdateParticipant>,
+    colleges: Vec<College>,
 }
 
 ui_struct! {
@@ -76,7 +75,7 @@ impl CreateUpdateParticipant {
 
         let ret = Rc::from(Self {
             ui: CreateUpdateParticipantUI::build(builder),
-            college_list: RefCell::from(CollegeList::_InitSoon),
+            college_list: RefCell::from(None),
             callback,
             reg_desk: Cell::from(None),
             participant: Cell::from(None),
@@ -84,7 +83,7 @@ impl CreateUpdateParticipant {
         });
 
         ret.college_list
-            .replace(CollegeList::NotLoaded(Rc::downgrade(&ret)));
+            .replace(Some(CollegeList::new(Rc::downgrade(&ret))));
 
         Self::initialize_callbacks(ret.clone());
 
@@ -135,18 +134,16 @@ impl CreateUpdateParticipant {
     }
 
     fn load_colleges(&self) {
-        if self.college_list.borrow().is_loaded() {
-            return;
-        }
-
         self.state_action_pending();
 
         let reg_desk = self.reg_desk.take().unwrap();
-
-        let this_weak = match self.college_list.replace(CollegeList::_InitSoon) {
-            CollegeList::NotLoaded(this) => this,
-            _ => panic!(),
-        };
+        let this_weak = self
+            .college_list
+            .borrow()
+            .as_ref()
+            .unwrap()
+            .parent_weak
+            .clone();
 
         let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
         std::thread::spawn(move || tx.send((reg_desk.college_get_filtered(""), reg_desk)));
@@ -154,7 +151,11 @@ impl CreateUpdateParticipant {
         rx.attach(None, move |(colleges, reg_desk)| {
             let this = this_weak.upgrade().unwrap();
             this.reg_desk.set(Some(reg_desk));
-            this.college_list.replace(CollegeList::new_loaded(colleges));
+            this.college_list
+                .borrow_mut()
+                .as_mut()
+                .unwrap()
+                .reload(colleges);
 
             match this.mode.get().unwrap() {
                 Mode::CreateRagam | Mode::CreateKalotsavam => this.state_default_create(),
@@ -201,6 +202,7 @@ impl CreateUpdateParticipant {
                 if event_key.get_keyval() == gdk::enums::key::Return {
                     let this = this_weak.upgrade().unwrap();
                     this.ui.college_popup.hide();
+                    this.ui.phone.grab_focus();
                     glib::signal::Inhibit(true)
                 } else {
                     glib::signal::Inhibit(false)
@@ -215,10 +217,11 @@ impl CreateUpdateParticipant {
 
                 let college_g_str = entry.get_text().unwrap();
                 let college_str = college_g_str.as_str();
-                let college_list =
+                let college_list_borrow =
                     this
                         .college_list
                         .borrow();
+                let college_list = college_list_borrow.as_ref().unwrap();
                 let colleges = college_list
                         .fuzzy_filter(college_str)
                         .take(100);
@@ -290,7 +293,7 @@ impl CreateUpdateParticipant {
                 let this_weak = this_weak.clone();
                 rx.attach(None, move |(college, colleges, reg_desk)| {
                     let this = this_weak.upgrade().unwrap();
-                    this.college_list.replace(CollegeList::new_loaded(colleges));
+                    this.college_list.borrow_mut().as_mut().unwrap().reload(colleges);
                     this.ui.college.set_text(&college.name);
                     this.ui.college_search.set_text(&college.name);
                     this.reg_desk.set(Some(reg_desk));
@@ -478,7 +481,8 @@ impl CreateUpdateParticipant {
         let name = self.ui.name.get_text().unwrap().to_string();
         let email = self.ui.email.get_text().unwrap().to_string();
         let phone = self.ui.phone.get_text().unwrap().to_string();
-        let college_list = self.college_list.borrow();
+        let college_list_borrow = self.college_list.borrow();
+        let college_list = college_list_borrow.as_ref().unwrap();
         let college = self
             .ui
             .college
@@ -511,32 +515,27 @@ impl CreateUpdateParticipant {
 }
 
 impl CollegeList {
-    pub fn new_loaded(colleges: Vec<College>) -> Self {
-        CollegeList::Loaded(colleges)
+    pub fn new(parent_weak: Weak<CreateUpdateParticipant>) -> Self {
+        CollegeList {
+            parent_weak,
+            colleges: Vec::new(),
+        }
     }
 
-    pub fn is_loaded(&self) -> bool {
-        match self {
-            CollegeList::Loaded(_) => true,
-            CollegeList::NotLoaded(_) => false,
-            CollegeList::_InitSoon => panic!("CollegeList::is_loaded(): self not initialized"),
-        }
+    pub fn reload(&mut self, colleges: Vec<College>) {
+        self.colleges = colleges;
     }
 
     pub fn fuzzy_filter<'a>(&'a self, key: &'a str) -> Box<dyn Iterator<Item = &'a College> + 'a> {
-        match self {
-            CollegeList::Loaded(colleges) => Box::from(colleges.iter().filter(move |c| {
+        Box::from(
+            self.colleges.iter().filter(move |c| {
                 fuzzy_filter::matches(&key.to_lowercase(), &c.name.to_lowercase())
-            })),
-            _ => Box::from(Vec::new().into_iter()),
-        }
+            }),
+        )
     }
 
     pub fn find(&self, name: &str) -> Option<College> {
-        match self {
-            CollegeList::Loaded(colleges) => colleges.iter().find(|c| c.name == name).cloned(),
-            _ => panic!("College List not loaded"),
-        }
+        self.colleges.iter().find(|c| c.name == name).cloned()
     }
 }
 
