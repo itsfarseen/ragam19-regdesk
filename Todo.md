@@ -1,11 +1,7 @@
 
 # TODO
-[ ] Reset password
-[ ] Proper backend
-[ ] Cleanup Create/Update participant monolith. May be break it down.
-[ ] Hospi repository
-[ ] Hospi home page
-[ ] Hospi verify
+[ ] Remove reset password
+[ ] Remove verify registration
 
 
 # DONE

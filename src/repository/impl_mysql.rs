@@ -86,7 +86,8 @@ struct RegDesk {
 }
 
 impl IRegDesk for RegDesk {
-    fn participant_new(&mut self, info: ParticipantInfo, college: College) -> Participant {
+    fn participant_new_verified(&mut self, info: ParticipantInfo, college: College) -> Participant {
+        let last_insert_id = {
         let info_ = info.clone();
         let mut lock = self.conn.lock().unwrap();
         let res = lock
@@ -106,15 +107,10 @@ impl IRegDesk for RegDesk {
                 ),
             )
             .unwrap();
-        return Participant {
-            id: res.last_insert_id() as i32,
-            info,
-            college,
-            reg_status: Err(ParticipantRegNotVerified {
-                id: res.last_insert_id() as i32,
-            }),
-            hospitality: None,
+            res.last_insert_id() as i32
         };
+        
+        return self.participant_verify_reg(ParticipantRegNotVerified{id: last_insert_id});
     }
 
     fn participant_get(&self, id: i32) -> Option<Participant> {

@@ -14,7 +14,9 @@ pub struct Home {
 
 pub enum Message {
     VerifyReg(Participant, Box<dyn IRegDesk>),
-    NewReg(Box<dyn IRegDesk>),
+    RagamReg(Box<dyn IRegDesk>),
+    KaloReg(Box<dyn IRegDesk>),
+    Logout(Box<dyn IRegDesk>)
 }
 
 ui_struct! {
@@ -23,7 +25,9 @@ ui_struct! {
         ragam_id: gtk::Entry,
         ragam_id_not_found: gtk::Label,
         search: gtk::Button,
-        new_registration: gtk::Button
+        ragam_reg: gtk::Button,
+        kalo_reg: gtk::Button,
+        logout: gtk::Button
     }
 }
 
@@ -97,10 +101,22 @@ impl Home {
             });
         }});
 
-        this.ui.new_registration.connect_clicked(clone! (this_weak => move|_| {
-            let this = this_weak.upgrade().expect("Home.ui.new_registration: Reference to Home dropped unexpectedly.");
+        this.ui.ragam_reg.connect_clicked(clone! (this_weak => move|_| {
+            let this = this_weak.upgrade().expect("Home.ui.ragam_reg: Reference to Home dropped unexpectedly.");
             let reg_desk = this.reg_desk.take().expect("Home: reg_desk is None");
-            (this.callback)(Message::NewReg(reg_desk));
+            (this.callback)(Message::RagamReg(reg_desk));
+        }));
+
+        this.ui.kalo_reg.connect_clicked(clone! (this_weak => move|_| {
+            let this = this_weak.upgrade().expect("Home.ui.kalo_reg: Reference to Home dropped unexpectedly.");
+            let reg_desk = this.reg_desk.take().expect("Home: reg_desk is None");
+            (this.callback)(Message::KaloReg(reg_desk));
+        }));
+
+        this.ui.logout.connect_clicked(clone! (this_weak => move|_| {
+            let this = this_weak.upgrade().expect("Home.ui.logout: Reference to Home dropped unexpectedly.");
+            let reg_desk = this.reg_desk.take().expect("Home: reg_desk is None");
+            (this.callback)(Message::Logout(reg_desk));
         }));
     }
 
@@ -111,22 +127,24 @@ impl Home {
         self.ui.ragam_id_not_found.set_opacity(1.0);
         self.ui.ragam_id.set_sensitive(false);
         self.ui.search.set_sensitive(false);
-        self.ui.new_registration.set_sensitive(false);
+        self.ui.ragam_reg.set_sensitive(false);
+        self.ui.kalo_reg.set_sensitive(false);
     }
 
     fn state_default(&self) {
         self.ui.ragam_id_not_found.set_opacity(0.0);
         self.ui.ragam_id.set_sensitive(true);
         self.ui.search.set_sensitive(true);
-        self.ui.new_registration.set_sensitive(true);
+        self.ui.ragam_reg.set_sensitive(true);
+        self.ui.kalo_reg.set_sensitive(true);
     }
 
     fn state_ragam_id_not_found(&self) {
         self.ui.ragam_id_not_found.set_text("Ragam ID not found");
         self.ui.ragam_id_not_found.set_opacity(1.0);
         self.ui.ragam_id.set_sensitive(true);
-        self.ui.search.set_sensitive(true);
-        self.ui.new_registration.set_sensitive(true);
+        self.ui.ragam_reg.set_sensitive(true);
+        self.ui.kalo_reg.set_sensitive(true);
     }
 
     fn state_ragam_id_invalid(&self) {
@@ -134,7 +152,8 @@ impl Home {
         self.ui.ragam_id_not_found.set_opacity(1.0);
         self.ui.ragam_id.set_sensitive(true);
         self.ui.search.set_sensitive(true);
-        self.ui.new_registration.set_sensitive(true);
+        self.ui.ragam_reg.set_sensitive(true);
+        self.ui.kalo_reg.set_sensitive(true);
     }
 }
 

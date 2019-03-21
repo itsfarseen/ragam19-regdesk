@@ -86,11 +86,17 @@ impl App {
         {
             let home_reg_desk_cb = Box::from(clone! {this => move|message| {
                 match message {
-                    view::home::Message::NewReg(reg_desk) => {
-                        this.borrow().switch_view_new_participant(reg_desk);
+                    view::home::Message::RagamReg(reg_desk) => {
+                        this.borrow().switch_view_new_ragam_reg(reg_desk);
+                    },
+                    view::home::Message::KaloReg(reg_desk) => {
+                        this.borrow().switch_view_new_kalo_reg(reg_desk);
                     },
                     view::home::Message::VerifyReg(participant, reg_desk) => {
                         this.borrow().switch_view_verify_reg(participant, reg_desk);
+                    },
+                    view::home::Message::Logout(_) => {
+                        this.borrow().switch_view_login();
                     }
                 }
             }});
@@ -192,11 +198,21 @@ impl App {
             .load(self.hospi_reg.as_ref().unwrap().as_ref());
     }
 
-    fn switch_view_new_participant(&self, reg_desk: Box<dyn IRegDesk>) {
+    fn switch_view_new_ragam_reg(&self, reg_desk: Box<dyn IRegDesk>) {
         self.create_update
             .as_ref()
             .unwrap()
-            .set_mode_create(reg_desk);
+            .set_mode_create_ragam(reg_desk);
+        self.main_view
+            .borrow_mut()
+            .load(self.create_update.as_ref().unwrap().as_ref());
+    }
+
+    fn switch_view_new_kalo_reg(&self, reg_desk: Box<dyn IRegDesk>) {
+        self.create_update
+            .as_ref()
+            .unwrap()
+            .set_mode_create_kalotsavam(reg_desk);
         self.main_view
             .borrow_mut()
             .load(self.create_update.as_ref().unwrap().as_ref());

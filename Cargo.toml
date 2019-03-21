@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies.gtk]
 version = "0.6"
-features = ["v3_22"]
+features = ["v3_18"]
 
 [dependencies.glib]
 version = "0.7"

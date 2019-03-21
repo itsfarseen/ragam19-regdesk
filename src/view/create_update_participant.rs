@@ -50,6 +50,7 @@ ui_struct! {
         new_college: gtk::Button,
 
         email: gtk::Entry,
+        phone: gtk::Entry,
 
         back: gtk::Button,
         save: gtk::Button,
@@ -60,7 +61,8 @@ ui_struct! {
 
 #[derive(Copy, Clone)]
 enum Mode {
-    Create,
+    CreateRagam,
+    CreateKalotsavam,
     Update,
 }
 
@@ -89,16 +91,33 @@ impl CreateUpdateParticipant {
         ret
     }
 
-    pub fn set_mode_create(&self, reg_desk: Box<dyn IRegDesk>) {
-        self.state_default_create();
-
+    pub fn set_mode_create_ragam(&self, reg_desk: Box<dyn IRegDesk>) {
         self.reg_desk.set(Some(reg_desk));
-        self.mode.set(Some(Mode::Create));
+        self.mode.set(Some(Mode::CreateRagam));
+
+        self.state_default_create();
         self.load_colleges();
 
         self.ui.name.set_text("");
         self.ui.email.set_text("");
         self.ui.college.set_text("");
+        self.ui.phone.set_text("");
+        self.ui.male.set_active(true);
+
+        self.participant.set(None);
+    }
+
+    pub fn set_mode_create_kalotsavam(&self, reg_desk: Box<dyn IRegDesk>) {
+        self.state_default_create();
+
+        self.reg_desk.set(Some(reg_desk));
+        self.mode.set(Some(Mode::CreateKalotsavam));
+        self.load_colleges();
+
+        self.ui.name.set_text("");
+        self.ui.email.set_text("");
+        self.ui.college.set_text("");
+        self.ui.phone.set_text("");
         self.ui.male.set_active(true);
 
         self.participant.set(None);
@@ -138,7 +157,7 @@ impl CreateUpdateParticipant {
             this.college_list.replace(CollegeList::new_loaded(colleges));
 
             match this.mode.get().unwrap() {
-                Mode::Create => this.state_default_create(),
+                Mode::CreateRagam | Mode::CreateKalotsavam => this.state_default_create(),
                 Mode::Update => {
                     let p = this.participant.take().unwrap();
                     this.load_participant(&p);
@@ -168,6 +187,7 @@ impl CreateUpdateParticipant {
             clone! {this_weak => move |entry, event_button| {
                 if entry.has_focus() {
                     let this = this_weak.upgrade().unwrap();
+                    this.ui.college_search.set_text(entry.get_text().unwrap().as_str());
                     this.ui.college_popup.show();
                     glib::signal::Inhibit(true)
                 } else {
@@ -185,7 +205,7 @@ impl CreateUpdateParticipant {
                 } else {
                     glib::signal::Inhibit(false)
                 }
-            }}
+            }},
         );
 
         this.ui
@@ -292,12 +312,12 @@ impl CreateUpdateParticipant {
             this.state_action_pending();
 
             match this.mode.get().unwrap() {
-                Mode::Create => {
+                Mode::CreateRagam|Mode::CreateKalotsavam => {
                     let mut reg_desk = this.reg_desk.take().unwrap();
 
                     let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
                     std::thread::spawn(move || {
-                        tx.send((reg_desk.participant_new(participant_info, college), reg_desk))
+                        tx.send((reg_desk.participant_new_verified(participant_info, college), reg_desk))
                     });
 
                     let this_weak = this_weak.clone();
@@ -347,8 +367,13 @@ impl CreateUpdateParticipant {
         });
     }
 
+    // TODO: Merge state_default_* methods
     fn state_default_create(&self) {
-        self.ui.title.set_text("New Registration");
+        match self.mode.get().unwrap() {
+            Mode::CreateRagam => self.ui.title.set_text("Ragam Registration"),
+            Mode::CreateKalotsavam => self.ui.title.set_text("Kalotsavam Registration"),
+            _ => {}
+        }
         self.ui.ragam_id.set_opacity(0.0);
         self.ui.saved_successfully.set_opacity(0.0);
         set_sensitive!(true, self.ui{
@@ -357,6 +382,7 @@ impl CreateUpdateParticipant {
             female,
             other,
             college,
+            phone,
             email,
             back,
             save
@@ -373,6 +399,7 @@ impl CreateUpdateParticipant {
             female,
             other,
             college,
+            phone,
             email,
             back,
             save
@@ -386,6 +413,7 @@ impl CreateUpdateParticipant {
             female,
             other,
             college,
+            phone,
             email,
             back,
             save
@@ -405,6 +433,7 @@ impl CreateUpdateParticipant {
             female,
             other,
             college,
+            phone,
             email,
             back,
             save
@@ -420,6 +449,7 @@ impl CreateUpdateParticipant {
             female,
             other,
             college,
+            phone,
             email,
             save
         });
@@ -427,7 +457,10 @@ impl CreateUpdateParticipant {
     }
 
     fn load_participant(&self, participant: &Participant) {
-        let id = format!("R19{:06}", participant.id());
+        let id = match participant.info.category {
+            ParticipantCategory::Kalotsavam => format!("K19{:06}", participant.id()),
+            ParticipantCategory::Ragam => format!("R19{:06}", participant.id()),
+        };
         self.ui.ragam_id.set_text(&id);
         self.ui.name.set_text(&participant.info.name);
         match participant.info.gender {
@@ -438,11 +471,13 @@ impl CreateUpdateParticipant {
         .set_active(true);
         self.ui.college.set_text(&participant.college.name);
         self.ui.email.set_text(&participant.info.email);
+        self.ui.phone.set_text(&participant.info.phone);
     }
 
     fn new_participant_from_fields(&self) -> (ParticipantInfo, Option<College>) {
         let name = self.ui.name.get_text().unwrap().to_string();
         let email = self.ui.email.get_text().unwrap().to_string();
+        let phone = self.ui.phone.get_text().unwrap().to_string();
         let college_list = self.college_list.borrow();
         let college = self
             .ui
@@ -455,6 +490,7 @@ impl CreateUpdateParticipant {
             ParticipantInfo {
                 name,
                 email,
+                phone,
                 gender: {
                     if self.ui.male.get_active() {
                         Gender::Male
@@ -464,8 +500,10 @@ impl CreateUpdateParticipant {
                         Gender::Other
                     }
                 },
-                category: ParticipantCategory::Ragam,
-                phone: String::from("N/A")
+                category: match self.mode.get().unwrap() {
+                    Mode::CreateRagam => ParticipantCategory::Ragam,
+                    _ => ParticipantCategory::Kalotsavam,
+                },
             },
             college,
         )
