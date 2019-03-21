@@ -40,11 +40,7 @@ impl Login {
 }
 
 impl ILogin for Login {
-    fn login_reg_desk(
-        &self,
-        username: &str,
-        password: &str,
-    ) -> Result<Box<dyn IRegDesk>, ()> {
+    fn login_reg_desk(&self, username: &str, password: &str) -> Result<Box<dyn IRegDesk>, ()> {
         thread::sleep(time::Duration::from_millis(DELAY));
 
         if let Some(admin) = self.admins.get(username) {
@@ -118,6 +114,7 @@ impl IRegDesk for RegDesk {
             reg_status: Err(ParticipantRegNotVerified {
                 id: self.participant_last_id,
             }),
+            hospitality: None,
         };
 
         self.participants
@@ -141,6 +138,25 @@ impl IRegDesk for RegDesk {
         let admin = self.logged_in_admin.clone();
         if let Some(participant) = self.participants.get_mut(&p.id) {
             participant.reg_status = Ok(ParticipantRegVerified { admin });
+        }
+
+        self.participant_get(p.id).unwrap()
+    }
+
+    fn participant_update_hospi(
+        &mut self,
+        p: Participant,
+        hostel: &str,
+        room: &str,
+    ) -> Participant {
+        thread::sleep(time::Duration::from_millis(DELAY));
+        let admin = self.logged_in_admin.clone();
+        if let Some(participant) = self.participants.get_mut(&p.id) {
+            participant.hospitality = Some(HospitalityVerified {
+                admin,
+                hostel: hostel.to_owned(),
+                room: room.to_owned(),
+            });
         }
 
         self.participant_get(p.id).unwrap()

@@ -10,4 +10,5 @@ pub mod home;
 pub mod home_hospi;
 pub mod login;
 pub mod main_view;
+pub mod hospi_reg;
 pub mod verify_reg;
