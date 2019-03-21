@@ -101,6 +101,7 @@ impl CreateUpdateParticipant {
         self.ui.email.set_text("");
         self.ui.college.set_text("");
         self.ui.phone.set_text("");
+        self.ui.new_college_entry.set_text("");
         self.ui.male.set_active(true);
 
         self.participant.set(None);
@@ -117,6 +118,7 @@ impl CreateUpdateParticipant {
         self.ui.email.set_text("");
         self.ui.college.set_text("");
         self.ui.phone.set_text("");
+        self.ui.new_college_entry.set_text("");
         self.ui.male.set_active(true);
 
         self.participant.set(None);
