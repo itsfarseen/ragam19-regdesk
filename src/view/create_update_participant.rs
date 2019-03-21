@@ -307,7 +307,7 @@ impl CreateUpdateParticipant {
             let this = this_weak.upgrade().unwrap();
 
             let (participant_info, college) = this.new_participant_from_fields();
-            if college.is_none() {
+            if participant_info.name.is_empty() || participant_info.phone.is_empty() || college.is_none(){
                 return;
             }
             let college = college.unwrap();
