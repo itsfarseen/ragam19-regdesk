@@ -187,7 +187,7 @@ impl IRegDesk for RegDesk {
         let mut lock = self.conn.lock().unwrap();
         let res = lock
             .prep_exec(
-                r"UPDATE participant SET college_id=?, email=?, password=?, name=?, phone=?, gender=?, category=?",
+                r"UPDATE participant SET college_id=?, email=?, password=?, name=?, phone=?, gender=?, category=? WHERE id=?",
                 (
                     participant.college.id(),
                     participant.info.email.clone(),
@@ -196,6 +196,7 @@ impl IRegDesk for RegDesk {
                     participant.info.phone.clone(),
                     gender_to_i32(participant.info.gender),
                     category_to_i32(participant.info.category),
+                    participant.id
                 ),
             )
             .unwrap();
