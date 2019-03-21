@@ -107,10 +107,10 @@ impl CreateUpdateParticipant {
     }
 
     pub fn set_mode_create_kalotsavam(&self, reg_desk: Box<dyn IRegDesk>) {
-        self.state_default_create();
-
         self.reg_desk.set(Some(reg_desk));
         self.mode.set(Some(Mode::CreateKalotsavam));
+
+        self.state_default_create();
         self.load_colleges();
 
         self.ui.name.set_text("");
