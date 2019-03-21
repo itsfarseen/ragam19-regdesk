@@ -4,10 +4,6 @@ version = "0.1.0"
 authors = ["Farzeen"]
 edition = "2018"
 
-[dependencies.diesel]
-version = "1.4"
-features = ["postgres"]
-
 [dependencies.gtk]
 version = "0.6"
 features = ["v3_22"]
