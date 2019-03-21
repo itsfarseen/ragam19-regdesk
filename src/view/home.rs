@@ -143,6 +143,7 @@ impl Home {
         self.ui.ragam_id_not_found.set_text("Ragam ID not found");
         self.ui.ragam_id_not_found.set_opacity(1.0);
         self.ui.ragam_id.set_sensitive(true);
+        self.ui.search.set_sensitive(true);
         self.ui.ragam_reg.set_sensitive(true);
         self.ui.kalo_reg.set_sensitive(true);
     }
